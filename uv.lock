@@ -1,0 +1,40 @@
+version = 1
+revision = 3
+requires-python = ">=3.14"
+
+[[package]]
+name = "pybricks"
+version = "3.6.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/66/7f/30e66ae9e57375098803f19e6e397d1af3f8d848c105a5041d9934252b8a/pybricks-3.6.1.tar.gz", hash = "sha256:1836b5e14e143eec02a8c57d4677ab96a223a653e813567df072d90722d9f048", size = 47517, upload-time = "2025-05-01T09:32:10.847Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/86/e9/a6259aeea4e4b01e92eee917b868564580efd84abdf823357ce6be92489d/pybricks-3.6.1-py3-none-any.whl", hash = "sha256:ff177a4c4728df1ea22cc7ac63c403affd0d1f64cc389a385f5b27561ab08c23", size = 59762, upload-time = "2025-05-01T09:32:09.306Z" },
+]
+
+[[package]]
+name = "pybricks-stubs"
+version = "2.0.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/66/4f/66c9e7eb08e20748b8f6df948c092a602d523ee5d5025aa396ede6e35001/pybricks-stubs-2.0.2.tar.gz", hash = "sha256:66620551327e7c373063505ba1187baa2c09d493c2cdbb0ddcf9365e59ca05ad", size = 27178, upload-time = "2020-06-11T23:31:59.127Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/64/6e/a448b75fc3a308a547e7799bc1d7b1c21835a238f794848f4fbb7e6c539e/pybricks_stubs-2.0.2-py3-none-any.whl", hash = "sha256:c156a1a84f2d2af933eefd79a4123fbacfedad341972e1b32cc56c9947e76f30", size = 45476, upload-time = "2020-06-11T23:31:57.829Z" },
+]
+
+[[package]]
+name = "wro-future-engineering"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "pybricks" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pybricks-stubs" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pybricks", specifier = ">=3.6.1" }]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pybricks-stubs", specifier = ">=2.0.2" }]
