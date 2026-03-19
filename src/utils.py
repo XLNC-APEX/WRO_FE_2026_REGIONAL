@@ -14,3 +14,6 @@ def normalize_angle(angle):
 
 def get_distance(motor: Motor):
     return motor.angle() / 360 * (WHEEL_DIAMETER * math.pi)
+
+def to_rad(a):
+    return a * (math.pi / 180)

@@ -16,6 +16,7 @@ class Steering:
         self.integral_sum = 0
         self.last_error = 0
         self.timer = StopWatch()
+        self.heading = 0
 
     def increase_target_angle(self, angle):
         self.target_angle += angle
@@ -40,9 +41,9 @@ class Steering:
         dt = self.get_sec()
         dt = max(dt, 0.0001)
 
-        heading = self.gyro.angle()
+        self.heading = self.gyro.angle()
 
-        error = normalize_angle(heading - self.target_angle)
+        error = normalize_angle(self.heading - self.target_angle)
 
         derivative = (error - self.last_error) / dt
         self.integral_sum += error * dt
