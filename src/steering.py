@@ -3,9 +3,9 @@ from pybricks.ev3devices import GyroSensor, Motor
 from pybricks.tools import StopWatch
 from utils import constrain, normalize_angle
 
-Kp = 1.8
-Ki = 0.9
-Kd = 0.01
+Kp = 2.5
+Ki = 0.05
+Kd = 0.2
 
 
 class Steering:
@@ -21,8 +21,14 @@ class Steering:
         self.target_angle += angle
 
     def reset_angles(self):
-        self.gyro.reset_angle(0)
+        self.motor.run_until_stalled(-1000)
         self.motor.reset_angle(0)
+        self.motor.run_until_stalled(1000)
+        angle = self.motor.angle()
+        self.motor.run_angle(-1000, angle // 2)
+
+        self.motor.reset_angle(0)
+        self.gyro.reset_angle(0)
 
     def reset_time(self):
         self.timer.reset()
@@ -52,4 +58,3 @@ class Steering:
         self.last_error = error
 
         self.reset_time()
-

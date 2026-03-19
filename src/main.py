@@ -1,17 +1,15 @@
+#!/usr/bin/env pybricks-micropython
 from config import CHECK_DISTANCE
 from line_detection import LineDetector
 from pybricks.ev3devices import (
     ColorSensor,
     GyroSensor,
-    InfraredSensor,
     Motor,
-    TouchSensor,
     UltrasonicSensor,
 )
 from pybricks.hubs import EV3Brick
-# from pybricks.media.ev3dev import SoundFile
-from pybricks.parameters import Button, Color, Direction, Port, Stop
-from pybricks.robotics import DriveBase
+
+from pybricks.parameters import Port
 from pybricks.tools import StopWatch, wait
 from steering import Steering
 from utils import get_distance
@@ -44,33 +42,44 @@ ev3.speaker.beep()
 rear_motor.run(-2000)
 
 timer = StopWatch()
-once = True
-while passed_lines < 24:
+
+first = True
+clockwise = True
+
+while passed_lines < 12:
     # correction = wall_distance_keeper.correction()
     steering.pid()
 
-    # line = line_checker.check_line()
-    # new_distance = get_distance(rear_motor)
-    # if new_distance - distance > CHECK_DISTANCE:
-    #     if line != "white":
-    #         # passed_lines += 1
-    #         distance = new_distance
+    line = line_checker.check_line()
+    new_distance = get_distance(rear_motor)
+    if abs(new_distance - distance) > CHECK_DISTANCE:
+        if line != 'white' and first:
+            first = False
+            if line == 'blue':
+                clockwise = False
+                
 
-    #     if passed_lines % 2 != 0:
-    #         ev3.speaker.beep()
-    #         if line == "orange":
-    #             steering.rease_target_angle(90)
-    #         elif line == "blue":
-    #             steering.increase_target_angle(-90)
+        if clockwise and line == "orange":
+            ev3.speaker.beep() 
+            steering.increase_target_angle(90)
+            distance = new_distance
+            passed_lines += 1
+        elif not clockwise and line == "blue":
+            ev3.speaker.beep() 
+            steering.increase_target_angle(-90)
+            distance = new_distance
+            passed_lines += 1
 
     print(
-        "heading:", gyro.angle(), "target:", steering.target_angle, "steer:", steering_motor.angle()
+        "heading:", gyro.angle(), 
+        "target:", steering.target_angle, 
+        "steer:", steering_motor.angle(), 
+        "color: ", line,
+        "distance", new_distance
     )
-    # print(distance, line)
-    if timer.time() > 5 * 1000 and once:
-        steering.increase_target_angle(90)
-        once = False
-
+    # if timer.time() > 5 * 1000:
+    #     steering.increase_target_angle(90)
+    #     timer.reset()
     wait(20)
 
 
