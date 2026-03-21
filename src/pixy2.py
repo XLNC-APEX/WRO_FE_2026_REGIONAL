@@ -42,26 +42,15 @@ class Pixy2:
     get_blocks            -- Get data about detected signatures
     get_linetracking_data -- Get data for linetracking
     """
-    def __init__(self, port=1, i2c_address=0x54):
+    def __init__(self, port: Port, i2c_address=0x54):
         """ Initialising Pixy2 class.
         
         Keyword arguments:
-        port        -- portnumber to wich the Pixy2 is connected
-                       (INT in range (1, 4)).
+        port        -- port to which the Pixy2 is connected
         i2c_address -- i2c address for communicating with Pixy2
                        (hexa-decimal, set in configuration Pixy2).
         """
-        if port == 1:
-            ev3_port = Port.S1
-        elif port == 2:
-            ev3_port = Port.S2
-        elif port == 3:
-            ev3_port = Port.S3
-        elif port == 4:
-            ev3_port = Port.S4
-        else:
-            raise ValueError('Portnumber out of range (1, 4)')
-        self.pixy2 = I2CDevice(ev3_port, i2c_address)
+        self.pixy2 = I2CDevice(port, i2c_address, custom=True, powered=True, nxt_quirk=False)
         self._mode = Pixy2Mode().LINE_MODE_DEFAULT
     
     def get_version(self):
@@ -78,7 +67,7 @@ class Pixy2:
         pixy2_version.hardware = data[1] << 8 | data[0]
         fw = [str(data[2]), str(data[3]), str(data[5] << 8 | data[4])]
         pixy2_version.firmware = '.'.join(fw)
-        pixy2_version.firmware_type = data[6:-1].decode()
+        pixy2_version.firmware_type = str(data[6:-1], "ascii")
 
         return pixy2_version
 
@@ -271,7 +260,7 @@ class PixyResolution:
         self.height = None
 
     def __str__(self):
-        return 'Resolution: widht={}, height={}\n'.format(
+        return 'Resolution: width={}, height={}\n'.format(
             self.width, self.height)
 
 class Block:
