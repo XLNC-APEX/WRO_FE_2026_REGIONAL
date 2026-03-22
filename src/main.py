@@ -40,7 +40,7 @@ first = True
 clockwise = True
 
 while passed_lines < 12:
-    # correction = wall_distance_keeper.correction()
+    correction = wall_distance_keeper.correction(clockwise)
     steering.pid()
 
     line = line_checker.check_line()

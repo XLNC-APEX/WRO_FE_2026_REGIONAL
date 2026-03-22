@@ -1,7 +1,7 @@
 from config import SAFE_DISTANCE_FROM_WALLS
 from pybricks.ev3devices import UltrasonicSensor
 
-Kp = 0.4
+Kp = 2
 
 
 class DistanceKeeper:
@@ -9,8 +9,12 @@ class DistanceKeeper:
         self.ultrasonic_left = ultrasonic_left
         self.ultrasonic_right = ultrasonic_right
 
-    def correction(self):
-        d = self.ultrasonic_left.distance()
+    def correction(self, clockwise: bool):
+        if clockwise:
+            d = self.ultrasonic_left.distance()
+        else:
+            d = self.ultrasonic_right.distance()
+        print("ultrasonic:", d)
 
         error = SAFE_DISTANCE_FROM_WALLS - d
 
