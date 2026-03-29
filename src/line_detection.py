@@ -1,4 +1,3 @@
-from config import BLUE_LINE, COLOR_RANGE, ORANGE_LINE
 from pybricks.ev3devices import ColorSensor
 
 
