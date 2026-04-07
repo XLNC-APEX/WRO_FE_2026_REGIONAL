@@ -4,7 +4,8 @@ from pybricks.tools import StopWatch
 from utils import constrain, normalize_angle
 
 Kp = 2.5
-Ki = 0.05
+# Ki = 0.05
+Ki = 0
 Kd = 0.2
 
 
@@ -36,7 +37,7 @@ class Steering:
     def get_sec(self):
         return self.timer.time() / 1000
 
-    def pid(self, extra=0.0):
+    def pid(self, pixy=0.0, wall=0.0):
         dt = self.get_sec()
         dt = max(dt, 0.0001)
 
@@ -50,7 +51,10 @@ class Steering:
         self.integral_sum = constrain(self.integral_sum, -100, 100)  # TODO: CHANGE IT
 
         out = (error * Kp) + (self.integral_sum * Ki) + (derivative * Kd)
-        out += extra
+        
+        out += wall
+        out += pixy
+        
         out = constrain(out, -MAX_STEER, MAX_STEER)
 
         self.motor.track_target(out)

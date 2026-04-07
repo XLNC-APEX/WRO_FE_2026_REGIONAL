@@ -21,3 +21,25 @@ class DistanceKeeper:
             error *= -1
 
         return Kp * error
+
+
+class DistanceKeeperOneUltrasonic:
+    def __init__(self, ultrasonic_right: UltrasonicSensor):
+        self.ultrasonic_right = ultrasonic_right
+
+    def correction(self, clockwise: bool):
+        d = self.ultrasonic_right.distance()
+        print("ultrasonic:", d)
+
+        error = 0
+        if clockwise:
+            if abs(500 - d) > 30:
+                error = 500 - d
+        else:
+            if abs(SAFE_DISTANCE_FROM_WALLS - d) > 30:
+                error = SAFE_DISTANCE_FROM_WALLS - d
+
+        if clockwise:
+            error *= -1
+
+        return Kp * error

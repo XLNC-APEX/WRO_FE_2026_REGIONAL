@@ -51,13 +51,13 @@ while True:
         x = red_obstacles[1][0].x_center
         error = x - DESIRED_X_RED
         pixy_correction = error * Kp
-        steering.pid(extra=pixy_correction)
+        steering.pid(pixy=pixy_correction)
         print("RED: ", pixy_correction, "POS", x)
     elif green_obstacles[0] > 0:
         x = green_obstacles[1][0].x_center
         error = x - DESIRED_X_GREEN
         pixy_correction = error * Kp
-        steering.pid(extra=pixy_correction)
+        steering.pid(pixy=pixy_correction)
         print("GREEN: ", pixy_correction)
     else:
         steering.pid()
