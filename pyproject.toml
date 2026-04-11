@@ -10,5 +10,5 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "pybricks-stubs>=2.0.2",
+    "pybricks>=3.6.1",
 ]
