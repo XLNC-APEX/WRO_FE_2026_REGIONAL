@@ -39,7 +39,7 @@ rear_motor.run(-500)
 
 timer = StopWatch()
 
-first = True
+direction_set = False
 clockwise = True
 wall_correction = 0
 pixy_correction = 0
@@ -49,8 +49,8 @@ while passed_lines < 12:
     line = line_checker.check_line()
     new_distance = get_distance(rear_motor)
     if abs(new_distance - distance) > CHECK_DISTANCE:
-        if line != "white" and first:
-            first = False
+        if line != "white" and not direction_set:
+            direction_set = True
             if line == "blue":
                 clockwise = False
 
@@ -67,7 +67,7 @@ while passed_lines < 12:
     
     pixy_correction = obstacle_detection.get_correction()
     
-    if not first:
+    if direction_set:
         wall_correction = wall_distance_keeper.correction(clockwise)
         
     steering.pid(pixy=pixy_correction, wall=wall_correction)

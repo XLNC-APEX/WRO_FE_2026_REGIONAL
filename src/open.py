@@ -3,7 +3,7 @@ from config import CHECK_DISTANCE
 from line_detection import LineDetector
 from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
-from pybricks.parameters import Port
+from pybricks.parameters import Direction, Port
 from pybricks.tools import StopWatch, wait
 from steering import Steering
 from utils import get_distance
@@ -14,7 +14,7 @@ ev3 = EV3Brick()
 steering_motor = Motor(Port.D)
 rear_motor = Motor(Port.B)
 
-gyro = GyroSensor(Port.S4)
+gyro = GyroSensor(Port.S4, direction=Direction.COUNTERCLOCKWISE)
 ultrasonic_left = UltrasonicSensor(Port.S1)
 ultrasonic_right = UltrasonicSensor(Port.S2)
 color_sensor = ColorSensor(Port.S3)
@@ -36,33 +36,33 @@ rear_motor.run(-2000)
 
 timer = StopWatch()
 
-first = True
+direction_set = True
 clockwise = True
 correction = 0
 
 while passed_lines < 12:
-    if not first:
-        correction = wall_distance_keeper.correction(clockwise)
-    steering.pid(wall=correction)
-
     line = line_checker.check_line()
     new_distance = get_distance(rear_motor)
     if abs(new_distance - distance) > CHECK_DISTANCE:
-        if line != "white" and first:
-            first = False
+        if line != "white" and not direction_set:
+            direction_set = True
             if line == "blue":
                 clockwise = False
 
         if clockwise and line == "orange":
             ev3.speaker.beep()
-            steering.increase_target_angle(90)
+            steering.increase_target_angle(-90)
             distance = new_distance
             passed_lines += 1
         elif not clockwise and line == "blue":
             ev3.speaker.beep()
-            steering.increase_target_angle(-90)
+            steering.increase_target_angle(90)
             distance = new_distance
             passed_lines += 1
+            
+    if direction_set:
+        correction = wall_distance_keeper.correction(clockwise)
+    steering.pid(wall=correction)
 
     print(
         "heading:",

@@ -9,7 +9,12 @@ def constrain(x, low, high):
 
 
 def normalize_angle(angle):
-    return (angle + 180) % 360 - 180
+    angle %= 360
+    if angle >= 180:
+        angle -= 360
+    if angle < -180:
+        angle += 360
+    return angle
 
 
 def get_distance(motor: Motor):

@@ -43,7 +43,7 @@ class Steering:
 
         heading = self.gyro.angle()
 
-        error = normalize_angle(heading - self.target_angle)
+        error = normalize_angle(self.target_angle - heading)
 
         derivative = (error - self.last_error) / dt
         self.integral_sum += error * dt
