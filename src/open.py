@@ -33,8 +33,6 @@ ev3.speaker.beep()
 
 rear_motor.run(HIGH_SPEED)
 
-timer = StopWatch()
-
 direction_set = False
 is_turning = False
 clockwise = True

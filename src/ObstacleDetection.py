@@ -1,7 +1,7 @@
 from pixy2 import Pixy2
 
 # CAM_RESOLUTION = (316, 208)
-Kp = 0.3
+Kp = 0.01
 DESIRED_X_GREEN = 30
 DESIRED_X_RED = 286
 

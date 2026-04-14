@@ -1,5 +1,5 @@
 #!/usr/bin/env pybricks-micropython
-from config import CHECK_DISTANCE
+from config import CHECK_DISTANCE, HIGH_SPEED, LOW_SPEED
 from line_detection import LineDetector
 from ObstacleDetection import ObstacleDetection
 from pixy2 import Pixy2
@@ -30,22 +30,19 @@ passed_lines = 0
 distance = 0
 
 steering.reset_angles()
-steering.reset_time()
 rear_motor.reset_angle(0)
 
-# ev3.speaker.beep()
+ev3.speaker.beep()
 
-rear_motor.run(-500)
-
-timer = StopWatch()
+rear_motor.run(LOW_SPEED)
 
 direction_set = False
+is_turning = False
 clockwise = True
 wall_correction = 0
 pixy_correction = 0
 
 while passed_lines < 12:
-
     line = line_checker.check_line()
     new_distance = get_distance(rear_motor)
     if abs(new_distance - distance) > CHECK_DISTANCE:
@@ -54,24 +51,35 @@ while passed_lines < 12:
             if line == "blue":
                 clockwise = False
 
-        if clockwise and line == "orange":
+        is_turning = False
+        
+        if direction_set and clockwise and line == "orange":
             ev3.speaker.beep()
             steering.increase_target_angle(90)
+            is_turning = True
             distance = new_distance
             passed_lines += 1
-        elif not clockwise and line == "blue":
+        elif direction_set and not clockwise and line == "blue":
             ev3.speaker.beep()
             steering.increase_target_angle(-90)
+            is_turning = True
             distance = new_distance
             passed_lines += 1
-    
+
     pixy_correction = obstacle_detection.get_correction()
-    
-    if direction_set:
+
+    if direction_set and not is_turning:
         wall_correction = wall_distance_keeper.correction(clockwise)
-        
-    steering.pid(pixy=pixy_correction, wall=wall_correction)
+    else:
+        wall_correction = 0
+
+    steer = steering.pid(pixy=pixy_correction, wall=wall_correction)
     
+    # if abs(steer) > 20:
+    #     rear_motor.run(LOW_SPEED)
+    # else:
+    #     rear_motor.run(HIGH_SPEED)
+
     print(
         "heading:",
         gyro.angle(),
