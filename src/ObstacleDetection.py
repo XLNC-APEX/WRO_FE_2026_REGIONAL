@@ -1,9 +1,11 @@
 from pixy2 import Pixy2
+from utils import Line2D, Point2D
 
 # CAM_RESOLUTION = (316, 208)
 Kp = 0.01
-DESIRED_X_GREEN = 30
-DESIRED_X_RED = 286
+
+RED_LINE = Line2D(1, 1)
+GREEN_LINE = Line2D(1, 1)
 
 
 class ObstacleDetection:
@@ -18,12 +20,9 @@ class ObstacleDetection:
         self.red_obstacles = self.camera.get_blocks(1, 1)
         self.green_obstacles = self.camera.get_blocks(2, 1)
 
-    def _calculate_correction(self, x: int, is_green: bool):
-        if is_green:
-            error = x - DESIRED_X_GREEN
-        else:
-            error = x - DESIRED_X_RED
-        return error * Kp
+    def _calculate_correction(self, p: Point2D, line: Line2D) -> float:
+        # Simple x error instead of perpendicular, it is easier to compute and is proportional? to perp.
+        return (p.x - line.x(p.y)) * Kp
 
     def get_correction(self):
         self.update()
@@ -35,15 +34,23 @@ class ObstacleDetection:
             red = self.red_obstacles[1][0]
             green = self.green_obstacles[1][0]
             if red.width * red.height > green.width * green.height:
-                self.correction = self._calculate_correction(red.x_center, is_green=False)
+                self.correction = self._calculate_correction(
+                    Point2D(red.x_center, red.y_center), RED_LINE
+                )
             else:
-                self.correction = self._calculate_correction(green.x_center, is_green=True)
+                self.correction = self._calculate_correction(
+                    Point2D(green.x_center, green.y_center), GREEN_LINE
+                )
         elif red_count > 0:
-            x = self.red_obstacles[1][0].x_center
-            self.correction = self._calculate_correction(x, is_green=False)
+            red = self.red_obstacles[1][0]
+            self.correction = self._calculate_correction(
+                Point2D(red.x_center, red.y_center), RED_LINE
+            )
         elif green_count > 0:
-            x = self.green_obstacles[1][0].x_center
-            self.correction = self._calculate_correction(x, is_green=True)
+            green = self.green_obstacles[1][0]
+            self.correction = self._calculate_correction(
+                Point2D(green.x_center, green.y_center), GREEN_LINE
+            )
         else:
             self.correction = 0
         print("pixy-correction: ", self.correction)
