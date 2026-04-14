@@ -1,5 +1,5 @@
 #!/usr/bin/env pybricks-micropython
-from config import CHECK_DISTANCE
+from config import CHECK_DISTANCE, HIGH_SPEED, LOW_SPEED
 from line_detection import LineDetector
 from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
@@ -27,16 +27,16 @@ passed_lines = 0
 distance = 0
 
 steering.reset_angles()
-steering.reset_time()
 rear_motor.reset_angle(0)
 
 ev3.speaker.beep()
 
-rear_motor.run(-2000)
+rear_motor.run(HIGH_SPEED)
 
 timer = StopWatch()
 
-direction_set = True
+direction_set = False
+is_turning = False
 clockwise = True
 correction = 0
 
@@ -49,20 +49,32 @@ while passed_lines < 12:
             if line == "blue":
                 clockwise = False
 
-        if clockwise and line == "orange":
+        is_turning = False
+
+        if direction_set and clockwise and line == "orange":
             ev3.speaker.beep()
             steering.increase_target_angle(-90)
+            is_turning = True
             distance = new_distance
             passed_lines += 1
-        elif not clockwise and line == "blue":
+        elif direction_set and not clockwise and line == "blue":
             ev3.speaker.beep()
             steering.increase_target_angle(90)
+            is_turning = True
             distance = new_distance
             passed_lines += 1
-            
-    if direction_set:
+
+    if direction_set and not is_turning:
         correction = wall_distance_keeper.correction(clockwise)
-    steering.pid(wall=correction)
+    else:
+        correction = 0
+        
+    steer = steering.pid(wall=correction)
+    
+    if abs(steer) > 20:
+        rear_motor.run(LOW_SPEED)
+    else:
+        rear_motor.run(HIGH_SPEED)
 
     print(
         "heading:",
