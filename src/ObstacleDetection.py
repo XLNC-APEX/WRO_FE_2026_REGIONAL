@@ -3,11 +3,11 @@ from pixy2 import Pixy2
 from utils import Line2D, Point2D
 
 # CAM_RESOLUTION = (316, 208)
-Kp = 0.25
+Kp = 0.7
 
 RED_LINE = Line2D(-1.206, 172.5)
-# GREEN_LINE = Line2D(1.747, -364.8)
-GREEN_LINE = Line2D(1.206, -208.596)
+GREEN_LINE = Line2D(1.747, -364.8)
+# GREEN_LINE = Line2D(1.206, -208.596)
 
 
 class ObstacleDetection:
@@ -18,8 +18,11 @@ class ObstacleDetection:
         self.correction = 0
 
     def update(self):
-        self.red_obstacles = self.camera.get_blocks(1, 1)
-        self.green_obstacles = self.camera.get_blocks(2, 1)
+        try:
+            self.red_obstacles = self.camera.get_blocks(1, 1)
+            self.green_obstacles = self.camera.get_blocks(2, 1)
+        except Exception as e:
+            print(e)
 
     def _calculate_correction(self, p: Point2D, line: Line2D) -> float:
         # Simple x error instead of perpendicular, it is easier to compute and is proportional? to perp.
@@ -40,18 +43,18 @@ class ObstacleDetection:
         if green_count > 0:
             green_area = self.green_obstacles[1][0].width * self.green_obstacles[1][0].height
 
-        if red_area > green_area:
+        if red_count > 0 and red_area > green_area:
             if red_area >= MIN_OBSTACLE_AREA:
                 red = self.red_obstacles[1][0]
                 self.correction = self._calculate_correction(
                     Point2D(red.x_center, red.y_center), RED_LINE
                 )
-        else:
+        elif green_count > 0:
             if green_area >= MIN_OBSTACLE_AREA:
                 green = self.green_obstacles[1][0]
                 self.correction = self._calculate_correction(
                     Point2D(green.x_center, green.y_center), GREEN_LINE
                 )
 
-        print("pixy-correction: ", self.correction)
+        print("pixy-correction: ", self.correction, "green: ", green_count, "red: ", red_count)
         return self.correction

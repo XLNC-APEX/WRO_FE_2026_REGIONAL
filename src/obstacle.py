@@ -5,7 +5,7 @@ from ObstacleDetection import ObstacleDetection
 from pixy2 import Pixy2
 from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
-from pybricks.parameters import Port
+from pybricks.parameters import Direction, Port
 from pybricks.tools import StopWatch, wait
 from steering import Steering
 from utils import get_distance
@@ -16,7 +16,7 @@ ev3 = EV3Brick()
 steering_motor = Motor(Port.D)
 rear_motor = Motor(Port.B)
 
-gyro = GyroSensor(Port.S4)
+gyro = GyroSensor(Port.S4, direction=Direction.COUNTERCLOCKWISE)
 ultrasonic_right = UltrasonicSensor(Port.S2)
 color_sensor = ColorSensor(Port.S3)
 camera = Pixy2(port=Port.S1)
@@ -48,6 +48,7 @@ while passed_lines < 12:
     if abs(new_distance - distance) > CHECK_DISTANCE:
         if line != "white" and not direction_set:
             direction_set = True
+            wait(300)
             if line == "blue":
                 clockwise = False
 
@@ -55,23 +56,23 @@ while passed_lines < 12:
         
         if direction_set and clockwise and line == "orange":
             ev3.speaker.beep()
-            steering.increase_target_angle(90)
+            steering.increase_target_angle(-90)
             is_turning = True
             distance = new_distance
             passed_lines += 1
         elif direction_set and not clockwise and line == "blue":
             ev3.speaker.beep()
-            steering.increase_target_angle(-90)
+            steering.increase_target_angle(90)
             is_turning = True
             distance = new_distance
             passed_lines += 1
 
     pixy_correction = obstacle_detection.get_correction()
 
-    # if direction_set and not is_turning:
-    #     wall_correction = wall_distance_keeper.correction(clockwise)
-    # else:
-    #     wall_correction = 0
+    if direction_set and not is_turning:
+        wall_correction = wall_distance_keeper.correction(clockwise)
+    else:
+        wall_correction = 0
 
     steer = steering.pid(pixy=pixy_correction, wall=wall_correction)
     
@@ -88,7 +89,7 @@ while passed_lines < 12:
         "steer:",
         steering_motor.angle(),
     )
-    wait(40)
+    wait(20)
 
 finish_dist = get_distance(rear_motor)
 while abs(get_distance(rear_motor) - finish_dist) < 2000:

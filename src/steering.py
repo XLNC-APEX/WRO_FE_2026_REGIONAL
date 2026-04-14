@@ -51,8 +51,9 @@ class Steering:
 
         out = (error * Kp) + (self.integral_sum * Ki) + (derivative * Kd)
         
+        if abs(pixy) > 0:
+            out = pixy
         out += wall
-        out += pixy
         
         out = constrain(out, -MAX_STEER, MAX_STEER)
 

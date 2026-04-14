@@ -44,5 +44,9 @@ class DistanceKeeperOneUltrasonic:
 
         if clockwise:
             error *= -1
+            
+                    
+        if abs(error) < 20:
+            error = 0
 
         return Kp * error
