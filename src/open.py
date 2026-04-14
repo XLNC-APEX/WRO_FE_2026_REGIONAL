@@ -44,6 +44,7 @@ while passed_lines < 12:
     if abs(new_distance - distance) > CHECK_DISTANCE:
         if line != "white" and not direction_set:
             direction_set = True
+            wait(300)
             if line == "blue":
                 clockwise = False
 

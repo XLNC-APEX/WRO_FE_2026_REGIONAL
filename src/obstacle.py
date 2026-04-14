@@ -68,10 +68,10 @@ while passed_lines < 12:
 
     pixy_correction = obstacle_detection.get_correction()
 
-    if direction_set and not is_turning:
-        wall_correction = wall_distance_keeper.correction(clockwise)
-    else:
-        wall_correction = 0
+    # if direction_set and not is_turning:
+    #     wall_correction = wall_distance_keeper.correction(clockwise)
+    # else:
+    #     wall_correction = 0
 
     steer = steering.pid(pixy=pixy_correction, wall=wall_correction)
     
@@ -88,7 +88,7 @@ while passed_lines < 12:
         "steer:",
         steering_motor.angle(),
     )
-    wait(20)
+    wait(40)
 
 finish_dist = get_distance(rear_motor)
 while abs(get_distance(rear_motor) - finish_dist) < 2000:
