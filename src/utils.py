@@ -22,11 +22,7 @@ def get_distance(motor: Motor):
 
 
 class Line2D:
-    def __init__(
-        self,
-        k: float,
-        b: float,
-    ) -> None:
+    def __init__(self, k: float, b: float) -> None:
         self.k: float = k
         self.b: float = b
 
@@ -37,11 +33,20 @@ class Line2D:
         return (y - self.b) / self.k
 
 
+class Curve2D:
+    def __init__(self, a: float, b: float, c: float) -> None:
+        self.a = a
+        self.b = b
+        self.c = c
+    
+    def get_x(self, y: float) -> float:
+        return self.a * (y**2) + self.b * y + self.c
+
+# RED: y = 129.94021*x^0 + -1.282576*x^1 + 0.003517*x^2 
+# GREEN: y = 215.021075*x^0 + 1.319625*x^1 + -0.004968*x^2
+
+
 class Point2D:
-    def __init__(
-        self,
-        x: float,
-        y: float,
-    ) -> None:
+    def __init__(self, x: float, y: float) -> None:
         self.x: float = x
         self.y: float = y
