@@ -42,7 +42,7 @@ class Pixy2:
     get_blocks            -- Get data about detected signatures
     get_linetracking_data -- Get data for linetracking
     """
-    def __init__(self, port: Port, i2c_address=0x54):
+    def __init__(self, port: Port, i2c_address:int = 0x54):
         """ Initialising Pixy2 class.
         
         Keyword arguments:
@@ -50,10 +50,10 @@ class Pixy2:
         i2c_address -- i2c address for communicating with Pixy2
                        (hexa-decimal, set in configuration Pixy2).
         """
-        self.pixy2 = I2CDevice(port, i2c_address, custom=True, powered=True, nxt_quirk=False)
+        self.pixy2 = I2CDevice(port, i2c_address, custom=True, powered=True, nxt_quirk=False)  # ty:ignore[unknown-argument]
         self._mode = Pixy2Mode().LINE_MODE_DEFAULT
     
-    def get_version(self):
+    def get_version(self) -> Pixy2Version:
         """ Queries and receives the firmware and hardware version Pixy2."""
         pixy2_version = Pixy2Version()
         # Request data
@@ -71,7 +71,7 @@ class Pixy2:
 
         return pixy2_version
 
-    def get_resolution(self):
+    def get_resolution(self) -> PixyResolution:
         """ Gets the width and height of the frames."""
         resolution = PixyResolution()
         data = [174, 193, 12, 1, 0]
@@ -85,7 +85,7 @@ class Pixy2:
         resolution.height = data[3] << 8 | data[2]
         return resolution
 
-    def set_lamp(self, upper, lower):
+    def set_lamp(self, upper: int, lower: int):
         """ Turn on/off upper and lower LED's of Pixy2 (False=off, True=on)."""
         data = [174, 193, 22, 2, upper, lower]
         self.pixy2.write(reg=0x00, data=bytes(data))
@@ -93,7 +93,7 @@ class Pixy2:
         header = self.pixy2.read(reg=0x00, length=10)
         check_packet_type(header, 1)
 
-    def set_mode(self, mode):
+    def set_mode(self, mode: int):
         """ Set mode for Pixy2."""
         data = [174, 193, 54, 1, mode]
         self.pixy2.write(reg=0x00, data=bytes(data))
@@ -101,9 +101,9 @@ class Pixy2:
         header = self.pixy2.read(reg=0x00, length=10)
         check_packet_type(header, 1)
 
-    def get_blocks(self, sigmap, max_blocks):
+    def get_blocks(self, sigmap: int, max_blocks: int) -> tuple[int, list[Block]]:
         """ Get blockdata for sigmap."""
-        blocks = []
+        blocks: list[Block] = []
         # Request data
         data = [174, 193, 32, 2, sigmap, max_blocks]
         self.pixy2.write(reg=0x00, data=bytes(data))
@@ -128,7 +128,7 @@ class Pixy2:
         return nr_detected_blocks, blocks
 
 
-    def get_linetracking_data(self):
+    def get_linetracking_data(self) -> MainFeatures:
         """ Get linetracking data from Pixy2."""
 
         mainfeatures = MainFeatures()
@@ -196,29 +196,29 @@ class Pixy2:
         # Return data
         return mainfeatures
 
-    def set_next_turn(self, angle):
+    def set_next_turn(self, angle: int):
         """ Set direction for turn at next intersection."""
         data = [174, 193, 58, 2]
         data_bytes = bytes(data)
         # Add angle (2 bytes, little endian, signed)
-        data_bytes += angle.to_bytes(2, 'little', True)
+        data_bytes += angle.to_bytes(2, 'little')
         self.pixy2.write(reg=0x00, data=data_bytes)
         # Read header
         header = self.pixy2.read(reg=0x00, length=10)
         check_packet_type(header, 1)
 
-    def set_default_turn(self, angle):
+    def set_default_turn(self, angle: int):
         """ Set default direction for turn at an intersection."""
         data = [174, 193, 60, 2]
         data_bytes = bytes(data)
         # Add angle (2 bytes, little endian, signed)
-        data_bytes += angle.to_bytes(2, 'little', True)
+        data_bytes += angle.to_bytes(2, 'little')
         self.pixy2.write(reg=0x00, data=data_bytes)
         # Read header
         header = self.pixy2.read(reg=0x00, length=10)
         check_packet_type(header, 1)
 
-    def set_vector(self, index):
+    def set_vector(self, index: int):
         """ Set vector to use at an intersection, use this method when
         Pixy2 is in mode LINE_MODE_MANUAL_SELECT_VECTOR."""
         data = [174, 193, 56, 1, index]
@@ -233,9 +233,9 @@ class Pixy2:
 class Pixy2Version:
     """ Version information of Pixy2."""
     def __init__(self):
-        self.hardware = None
-        self.firmware = None
-        self.firmware_type = None
+        self.hardware: int
+        self.firmware: str
+        self.firmware_type: str
     
     def __str__(self):
         str_version = 'Hardware version: {}\nFirmware version: {} {}\n'.format(
@@ -256,8 +256,8 @@ class Pixy2Mode:
 class PixyResolution:
     """ Frame resolution."""
     def __init__(self):
-        self.width = None
-        self.height = None
+        self.width: int
+        self.height: int
 
     def __str__(self):
         return 'Resolution: width={}, height={}\n'.format(
@@ -266,14 +266,14 @@ class PixyResolution:
 class Block:
     """ Datablock with detected signature."""
     def __init__(self):
-        self.sig = None
-        self.x_center = None
-        self.y_center = None
-        self.width = None
-        self.height = None
-        self.angle = None
-        self.tracking_index = None
-        self.age = None
+        self.sig: int
+        self.x_center: int
+        self.y_center: int
+        self.width: int
+        self.height: int
+        self.angle: int
+        self.tracking_index: int
+        self.age: int
 
     def __str__(self):
         desc = 'sig: {}\nx: {}\ny: {}\nwidth:  {}\nheight: {}'.format(
@@ -283,12 +283,12 @@ class Block:
 class Vector:
     """ Vector data for linetracking."""
     def __init__(self):
-        self.x0 = 0
-        self.y0 = 0
-        self.x1 = 0
-        self.y1 = 0
-        self.index = 0
-        self.flags = 0
+        self.x0: int = 0
+        self.y0: int = 0
+        self.x1: int = 0
+        self.y1: int = 0
+        self.index: int = 0
+        self.flags: int = 0
 
 
 class Intersection:
@@ -299,7 +299,7 @@ class Intersection:
         self.nr_of_branches = 0
         self.branches = []
 
-    def add_branch(self, branch):
+    def add_branch(self, branch: Branch):
         """ Add branch to intersection."""
         b = Branch()
         b.index = branch.index
@@ -332,11 +332,12 @@ class MainFeatures:
         self.number_of_vectors = 0
         self.number_of_intersections = 0
         self.number_of_barcodes = 0
-        self.vectors = []
-        self.intersections = []
-        self.barcodes = []
+        self.vectors: list[Vector] = []
+        self.intersections: list[Intersection] = []
+        self.barcodes: list[Barcode] = []
+        self.error: bool
 
-    def add_vector(self, vector):
+    def add_vector(self, vector: Vector):
         v = Vector()
         v.x0 = vector.x0
         v.y0 = vector.y0
@@ -347,7 +348,7 @@ class MainFeatures:
         self.vectors.append(v)
         self.number_of_vectors += 1
 
-    def add_intersection(self, intersection):
+    def add_intersection(self, intersection: Intersection):
         ints = Intersection()
         b = Branch()
         ints.x = intersection.x
@@ -362,7 +363,7 @@ class MainFeatures:
         self.intersections.append(ints)
         self.number_of_intersections += 1
 
-    def add_barcode(self, barcode):
+    def add_barcode(self, barcode: Barcode):
         b = Barcode()
         b.x = barcode.x
         b.y = barcode.y
@@ -396,7 +397,7 @@ class Pixy2ConnectionError(Exception):
         self.errors = errors
         print(errors)
 
-def check_packet_type(header, packet_type):
+def check_packet_type(header: bytes, packet_type: int):
     """ Check if data packet type is correct, raise exception when not."""
     if header[2] == 0:
         # No data at all, Pixy2 connected?

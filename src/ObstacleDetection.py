@@ -2,13 +2,15 @@ from config import MIN_OBSTACLE_AREA
 from pixy2 import Pixy2
 from utils import Curve2D, Line2D, Point2D
 
-# CAM_RESOLUTION = (316, 208)
+CAM_WIDTH = 316
+CAM_HEIGHT = 208
 Kp = 0.4
 
 # v1
 # RED_LINE = Line2D(-1.206, 172.5)
 # GREEN_LINE = Line2D(1.747, -364.8)
 # GREEN_LINE = Line2D(1.206, -208.596)
+# GREEN_LINE = RED_LINE.invert_in_x_range_to(CAM_WIDTH)
 
 # v2
 RED_CURVE = Curve2D(0.003517, -1.282576, 129.94021)
