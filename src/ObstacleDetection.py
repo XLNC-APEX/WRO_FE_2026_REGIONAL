@@ -2,12 +2,14 @@ from config import MIN_OBSTACLE_AREA
 from pixy2 import Pixy2
 from utils import Line2D, Point2D
 
-# CAM_RESOLUTION = (316, 208)
+CAM_WIDTH = 316
+CAM_HEIGHT = 208
 Kp = 0.7
 
 RED_LINE = Line2D(-1.206, 172.5)
 GREEN_LINE = Line2D(1.747, -364.8)
 # GREEN_LINE = Line2D(1.206, -208.596)
+# GREEN_LINE = RED_LINE.invert_in_x_range_to(CAM_WIDTH)
 
 
 class ObstacleDetection:

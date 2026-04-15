@@ -36,6 +36,12 @@ class Line2D:
     def x(self, y: float) -> float:
         return (y - self.b) / self.k
 
+    def invert_in_x_range_to(self, x: float) -> Line2D:
+        return Line2D(-self.k, self.b + self.k * x)
+
+    def __str__(self) -> str:
+        return f"y = {float(self.k)}x + {float(self.b)}"
+
 
 class Point2D:
     def __init__(
