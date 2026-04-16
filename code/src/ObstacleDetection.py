@@ -1,6 +1,6 @@
-from config import MIN_OBSTACLE_AREA
-from pixy2 import Pixy2
-from utils import Curve2D, Line2D, Point2D
+from code.src.config import MIN_OBSTACLE_AREA
+from code.src.pixy2 import Pixy2
+from code.src.utils import Curve2D, Line2D, Point2D
 
 CAM_WIDTH = 316
 CAM_HEIGHT = 208

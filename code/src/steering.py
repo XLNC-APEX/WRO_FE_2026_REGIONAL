@@ -1,7 +1,7 @@
-from config import MAX_STEER
+from code.src.config import MAX_STEER
 from pybricks.ev3devices import GyroSensor, Motor
 from pybricks.tools import StopWatch
-from utils import constrain, normalize_angle
+from code.src.utils import constrain, normalize_angle
 
 Kp = 1.2
 Ki = 0

@@ -1,6 +1,6 @@
 import math
 
-from config import WHEEL_DIAMETER
+from code.src.config import WHEEL_DIAMETER
 from pybricks.ev3devices import Motor
 
 

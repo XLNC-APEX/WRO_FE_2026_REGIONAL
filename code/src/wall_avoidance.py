@@ -1,4 +1,4 @@
-from config import SAFE_DISTANCE_FROM_WALLS
+from code.src.config import SAFE_DISTANCE_FROM_WALLS
 from pybricks.ev3devices import UltrasonicSensor
 
 Kp = 0.15

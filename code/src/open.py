@@ -1,13 +1,13 @@
 #!/usr/bin/env pybricks-micropython
-from config import CHECK_DISTANCE, HIGH_SPEED, LOW_SPEED
-from line_detection import LineDetector
+from code.src.config import CHECK_DISTANCE, HIGH_SPEED, LOW_SPEED
+from code.src.line_detection import LineDetector
 from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
 from pybricks.parameters import Direction, Port
 from pybricks.tools import StopWatch, wait
-from steering import Steering
-from utils import get_distance
-from wall_avoidance import DistanceKeeper
+from code.src.steering import Steering
+from code.src.utils import get_distance
+from code.src.wall_avoidance import DistanceKeeper
 
 ev3 = EV3Brick()
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env pybricks-micropython
-from pixy2 import Pixy2
+from code.src.pixy2 import Pixy2
 from pybricks.parameters import Port
 from pybricks.tools import wait
 
