@@ -1,6 +1,6 @@
 import math
 
-from code.src.config import WHEEL_DIAMETER
+from config import WHEEL_DIAMETER
 from pybricks.ev3devices import Motor
 
 
@@ -44,11 +44,12 @@ class Curve2D:
         self.a = a
         self.b = b
         self.c = c
-    
+
     def get_x(self, y: float) -> float:
         return self.a * (y**2) + self.b * y + self.c
 
-# RED: y = 129.94021*x^0 + -1.282576*x^1 + 0.003517*x^2 
+
+# RED: y = 129.94021*x^0 + -1.282576*x^1 + 0.003517*x^2
 # GREEN: y = 215.021075*x^0 + 1.319625*x^1 + -0.004968*x^2
 
 

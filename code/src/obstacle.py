@@ -1,15 +1,15 @@
 #!/usr/bin/env pybricks-micropython
-from code.src.config import CHECK_DISTANCE, HIGH_SPEED, LOW_SPEED
-from code.src.line_detection import LineDetector
-from code.src.ObstacleDetection import ObstacleDetection
-from code.src.pixy2 import Pixy2
+from config import CHECK_DISTANCE, HIGH_SPEED, LOW_SPEED
+from line_detection import LineDetector
+from ObstacleDetection import ObstacleDetection
+from pixy2 import Pixy2
 from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
 from pybricks.parameters import Direction, Port
 from pybricks.tools import StopWatch, wait
-from code.src.steering import Steering
-from code.src.utils import get_distance
-from code.src.wall_avoidance import DistanceKeeperOneUltrasonic
+from steering import Steering
+from utils import get_distance
+from wall_avoidance import DistanceKeeperOneUltrasonic
 
 ev3 = EV3Brick()
 
@@ -53,7 +53,7 @@ while passed_lines < 12:
                 clockwise = False
 
         is_turning = False
-        
+
         if direction_set and clockwise and line == "orange":
             ev3.speaker.beep()
             steering.increase_target_angle(-90)
@@ -75,7 +75,7 @@ while passed_lines < 12:
         wall_correction = 0
 
     steer = steering.pid(pixy=pixy_correction, wall=wall_correction)
-    
+
     if abs(steer) > 20 or abs(pixy_correction) > 0:
         rear_motor.run(LOW_SPEED)
     else:

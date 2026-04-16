@@ -1,7 +1,7 @@
-from code.src.config import MAX_STEER
+from config import MAX_STEER
 from pybricks.ev3devices import GyroSensor, Motor
 from pybricks.tools import StopWatch
-from code.src.utils import constrain, normalize_angle
+from utils import constrain, normalize_angle
 
 Kp = 1.2
 Ki = 0
@@ -34,13 +34,13 @@ class Steering:
     def pid(self, pixy=0.0, wall=0.0):
         current_time = self.timer.time() / 1000
         dt = current_time - self.last_time
-        self.last_time= current_time
+        self.last_time = current_time
         dt = max(dt, 0.01)
 
         heading = self.gyro.angle()
 
         error = self.target_angle - heading
-        
+
         if abs(error) < 4:
             error = 0
 
@@ -50,15 +50,15 @@ class Steering:
         self.integral_sum = constrain(self.integral_sum, -100, 100)  # TODO: CHANGE IT
 
         out = (error * Kp) + (self.integral_sum * Ki) + (derivative * Kd)
-        
+
         out += wall
         if abs(pixy) > 0:
             out = pixy
-        
+
         out = constrain(out, -MAX_STEER, MAX_STEER)
 
         self.motor.track_target(out)
 
         self.last_error = error
-        
+
         return out

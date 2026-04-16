@@ -1,9 +1,9 @@
 #!/usr/bin/env pybricks-micropython
-from code.src.pixy2 import Pixy2
+from pixy2 import Pixy2
 from pybricks.parameters import Port
 from pybricks.tools import wait
 
-#TODO: Figure out how to move to tests folder instead of src. Add all tests, run them independently.
+# TODO: Figure out how to move to tests folder instead of src. Add all tests, run them independently.
 
 cam = Pixy2(port=Port.S1)
 print(cam.get_version())

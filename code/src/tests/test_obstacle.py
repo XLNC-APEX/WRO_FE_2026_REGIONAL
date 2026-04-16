@@ -1,14 +1,14 @@
 #!/usr/bin/env pybricks-micropython
-from code.src.config import CHECK_DISTANCE
-from code.src.line_detection import LineDetector
+from config import CHECK_DISTANCE
+from line_detection import LineDetector
+from pixy2 import Pixy2
 from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
 from pybricks.parameters import Port
 from pybricks.tools import StopWatch, wait
-from code.src.pixy2 import Pixy2
-from code.src.steering import Steering
-from code.src.utils import get_distance
-from code.src.wall_avoidance import DistanceKeeper
+from steering import Steering
+from utils import get_distance
+from wall_avoidance import DistanceKeeper
 
 ev3 = EV3Brick()
 
@@ -45,7 +45,7 @@ Kp = 0.3
 while True:
     red_obstacles = camera.get_blocks(1, 1)
     green_obstacles = camera.get_blocks(2, 1)
-    
+
     if red_obstacles[0] > 0:
         x = red_obstacles[1][0].x_center
         error = x - DESIRED_X_RED
