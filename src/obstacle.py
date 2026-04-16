@@ -34,7 +34,7 @@ rear_motor.reset_angle(0)
 
 ev3.speaker.beep()
 
-rear_motor.run(LOW_SPEED)
+rear_motor.run(HIGH_SPEED)
 
 direction_set = False
 is_turning = False
@@ -76,10 +76,10 @@ while passed_lines < 12:
 
     steer = steering.pid(pixy=pixy_correction, wall=wall_correction)
     
-    # if abs(steer) > 20:
-    #     rear_motor.run(LOW_SPEED)
-    # else:
-    #     rear_motor.run(HIGH_SPEED)
+    if abs(steer) > 20 or abs(pixy_correction) > 0:
+        rear_motor.run(LOW_SPEED)
+    else:
+        rear_motor.run(HIGH_SPEED)
 
     print(
         "heading:",

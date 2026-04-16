@@ -26,7 +26,6 @@ camera = Pixy2(port=Port.S1)
 
 
 steering.reset_angles()
-steering.reset_time()
 rear_motor.reset_angle(0)
 
 # ev3.speaker.beep()

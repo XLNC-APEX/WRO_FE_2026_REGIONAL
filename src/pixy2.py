@@ -50,7 +50,7 @@ class Pixy2:
         i2c_address -- i2c address for communicating with Pixy2
                        (hexa-decimal, set in configuration Pixy2).
         """
-        self.pixy2 = I2CDevice(port, i2c_address, custom=True, powered=True, nxt_quirk=False)  # ty:ignore[unknown-argument]
+        self.pixy2 = I2CDevice(port, i2c_address, custom=True, powered=True, nxt_quirk=False)  # type: ignore # ty:ignore[unknown-argument]
         self._mode = Pixy2Mode().LINE_MODE_DEFAULT
     
     def get_version(self) -> Pixy2Version:
