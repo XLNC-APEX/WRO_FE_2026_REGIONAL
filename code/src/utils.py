@@ -1,4 +1,3 @@
-from __future__ import annotations
 import math
 
 from config import WHEEL_DIAMETER
@@ -80,13 +79,12 @@ class ColorHSV:
 
         h = 0.0
         if cmax != cmin:
-            match cmax_i:
-                case 0:
-                    h = (60.0 * ((g - b) / diff) + 360.0) % 360.0
-                case 1:
-                    h = (60.0 * ((b - r) / diff) + 120.0) % 360.0
-                case 2:
-                    h = (60.0 * ((r - g) / diff) + 240.0) % 360.0
+            if cmax_i == 0:
+                h = (60.0 * ((g - b) / diff) + 360.0) % 360.0
+            if cmax_i == 1:
+                h = (60.0 * ((b - r) / diff) + 120.0) % 360.0
+            if cmax_i == 2:
+                h = (60.0 * ((r - g) / diff) + 240.0) % 360.0
         s = 0.0
         if cmax != 0:
             s = (diff / cmaxf) * 100
@@ -114,7 +112,16 @@ def within_percent(self: float, v: float, p: float) -> bool:
     max_diff = abs(self * (p / 100))
     return diff <= max_diff
 
+
 class ColorID:
     WHITE = 0
     BLUE = 1
     ORANGE = 2
+
+
+def color_id_as_str(c: int) -> str:
+    if c == ColorID.ORANGE:
+        return str("orange")
+    if c == ColorID.BLUE:
+        return str("blue")
+    return str("white")
