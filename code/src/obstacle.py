@@ -6,7 +6,7 @@ from pixy2 import Pixy2
 from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
 from pybricks.parameters import Direction, Port
-from pybricks.tools import StopWatch, wait
+from pybricks.tools import wait
 from steering import Steering
 from utils import get_distance
 from wall_avoidance import DistanceKeeperOneUltrasonic
@@ -70,7 +70,7 @@ while passed_lines < 12:
     pixy_correction = obstacle_detection.get_correction()
 
     if direction_set and not is_turning:
-        wall_correction = wall_distance_keeper.correction(clockwise)
+        wall_correction = wall_distance_keeper.correction(clockwise, steering.heading, passed_lines)
     else:
         wall_correction = 0
 
@@ -81,22 +81,22 @@ while passed_lines < 12:
     else:
         rear_motor.run(HIGH_SPEED)
 
-    print(
-        "heading:",
-        gyro.angle(),
-        "target:",
-        steering.target_angle,
-        "steer:",
-        steering_motor.angle(),
-        "rear motor speed:",
-        rear_motor.speed()
-    )
+    # print(
+    #     "heading:",
+    #     steering.heading,
+    #     "target:",
+    #     steering.target_angle,
+    #     "steer:",
+    #     steering_motor.angle(),
+    #     "rear motor speed:",
+    #     rear_motor.speed()
+    # )
     wait(20)
 
-finish_dist = get_distance(rear_motor)
-while abs(get_distance(rear_motor) - finish_dist) < 2000:
-    wall_correction = wall_distance_keeper.correction(clockwise)
-    steering.pid(wall=wall_correction)
+# finish_dist = get_distance(rear_motor)
+# while abs(get_distance(rear_motor) - finish_dist) < 2000:
+#     wall_correction = wall_distance_keeper.correction(clockwise)
+#     steering.pid(wall=wall_correction)
 
 rear_motor.stop()
 

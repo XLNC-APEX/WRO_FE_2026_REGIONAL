@@ -4,7 +4,7 @@ from line_detection import LineDetector
 from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
 from pybricks.parameters import Direction, Port
-from pybricks.tools import StopWatch, wait
+from pybricks.tools import wait
 from steering import Steering
 from utils import get_distance
 from wall_avoidance import DistanceKeeper
@@ -64,12 +64,12 @@ while passed_lines < 12:
             passed_lines += 1
 
     if direction_set and not is_turning:
-        correction = wall_distance_keeper.correction(clockwise)
+        correction = wall_distance_keeper.correction(clockwise, steering.heading, passed_lines)
     else:
         correction = 0
-        
+
     steer = steering.pid(wall=correction)
-    
+
     if abs(steer) > 20:
         rear_motor.run(LOW_SPEED)
     else:
@@ -89,11 +89,11 @@ while passed_lines < 12:
     )
     wait(20)
 
-rear_motor.run(LOW_SPEED)
-finish_dist = get_distance(rear_motor)
-while abs(get_distance(rear_motor) - finish_dist) < 2000:
-    correction = wall_distance_keeper.correction(clockwise)
-    steering.pid(wall=correction)
+# rear_motor.run(LOW_SPEED)
+# finish_dist = get_distance(rear_motor)
+# while abs(get_distance(rear_motor) - finish_dist) < 2000:
+#     correction = wall_distance_keeper.correction(clockwise)
+#     steering.pid(wall=correction)
 
 rear_motor.stop()
 

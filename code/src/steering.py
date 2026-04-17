@@ -17,6 +17,7 @@ class Steering:
         self.last_error = 0
         self.timer = StopWatch()
         self.last_time = 0
+        self.heading = 0
 
     def increase_target_angle(self, angle):
         self.target_angle += angle
@@ -37,9 +38,9 @@ class Steering:
         self.last_time = current_time
         dt = max(dt, 0.01)
 
-        heading = self.gyro.angle()
+        self.heading = self.gyro.angle()
 
-        error = self.target_angle - heading
+        error = self.target_angle - self.heading
 
         if abs(error) < 2:
             error = 0

@@ -50,14 +50,14 @@ class ObstacleDetection:
         if green_count > 0:
             green_area = self.green_obstacles[1][0].width * self.green_obstacles[1][0].height
 
-        if red_count > 0 and self.red_obstacles[1][0].y_center < 180 and red_area > green_area:
+        if red_count > 0 and 30 < self.red_obstacles[1][0].y_center < 180 and red_area > green_area:
             if red_area >= MIN_OBSTACLE_AREA:
                 red = self.red_obstacles[1][0]
                 self.correction = self._calculate_correction(
                     Point2D(red.x_center, red.y_center), RED_CURVE
                 )
         elif green_count > 0:
-            if green_area >= MIN_OBSTACLE_AREA and self.green_obstacles[1][0].y_center < 180:
+            if green_area >= MIN_OBSTACLE_AREA and 30 < self.green_obstacles[1][0].y_center < 180:
                 green = self.green_obstacles[1][0]
                 self.correction = self._calculate_correction(
                     Point2D(green.x_center, green.y_center), GREEN_CURVE
