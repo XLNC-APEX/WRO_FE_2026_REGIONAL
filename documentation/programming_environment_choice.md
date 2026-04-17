@@ -17,12 +17,14 @@ We tested many frameworks.
 
 | Framework | Supported | Stable | Ease of use | Polling rate| Performace| Fast startup | Wireless | Coding pleasure | Docs |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [Pybricks Micropython](#pybricks-bare-metal-micropython)  | 🟢 | 🟡 | 🟢 | 🟢 | 🟡 | 🟢 | 🔴 | 🟡 | 🟢 |
+| [Pybricks bare metal](#pybricks-bare-metal)  | 🟢 | 🟡 | 🟢 | 🟢 | 🟡 | 🟢 | 🔴 | 🟡 | 🟢 |
 | [Pybricks 2.0](#pybricks-20-ev3dev) | 🔴 | 🟡 | 🟢 | 🟢 | 🔴 | 🔴 | 🟢 | 🟡 | 🟡|
 | [c4ev3](#c4ev3) | 🔴 | 🟡 | 🔴 | 🔴 | 🔴 | 🟡 | ? | 🟡 | 🔴 |
-| [Rust (EV3DEV)](#ev3dev-lang-rust-ev3dev) | 🟢 | 🟢 | 🟢 | 🟡 | 🟢 | 🔴 | ? | 🟢 | 🟢 |
+| [Rust (EV3DEV)](#rust-ev3dev) | 🟢 | 🟢 | 🟢 | 🟡 | 🟢 | 🔴 | ? | 🟢 | 🟢 |
 | [EV3RT](#ev3rt-hrp3) | 🔴 | 🔴 | 🔴 | 🟢 | 🟢 | 🟢 | ? | 🟡 | 🟡 |
 | [CLEV3R](#clev3r) | 🔴 | ? | 🔴 | 🟢 | 🟢 | ? | 🟢 | 🔴 | 🟡 |
+
+? - untested
 
 ### [c4ev3](https://c4ev3.github.io/)
 ${\color{green}Pros:}$
@@ -82,7 +84,7 @@ ${\color{red}Cons:}$
 - Abandoned
 - MicroSD required
 
-### [Pybricks (Bare metal micropython)](https://github.com/pybricks/pybricks-micropython/tree/master/bricks/ev3)
+### [Pybricks (Bare metal)](https://github.com/pybricks/pybricks-micropython/tree/master/bricks/ev3)
 ${\color{green}Pros:}$
 - Ease of use
 - Bare metal: 
@@ -96,8 +98,8 @@ ${\color{red}Cons:}$
 - Experimental: no wireless support yet
 - Bad performance compared to compiled languages
 
-## We chose [Pybricks Micropython](https://github.com/pybricks/pybricks-micropython/tree/master/bricks/ev3)
+## We chose [Pybricks bare metal](https://github.com/pybricks/pybricks-micropython/tree/master/bricks/ev3)
 
-Due to the lightweight bare metal, fast startup times, ease of coding and sufficient polling rate and performance, decent documentation, although, accepting compromise of no wireless debugging, and no helpful smart compiler we chose Pybricks Micropython to program for EV3.
+Due to the lightweight bare metal, fast startup times, ease of coding and sufficient polling rate and performance, decent documentation, although, accepting compromise of no wireless debugging, and no helpful smart compiler we chose Pybricks bare metal to program for EV3.
 
 The next close candidate is Rust, however it's slow polling rate and slow startup of ev3dev were dealbreakers.
