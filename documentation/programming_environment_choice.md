@@ -18,7 +18,7 @@ We tested many frameworks.
 | Framework | Supported | Stable | Ease of use | Polling rate| Performace| Fast startup | Wireless | Coding pleasure | Docs |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | [Pybricks bare metal](#pybricks-bare-metal)  | 🟢 | 🟡 | 🟢 | 🟢 | 🟡 | 🟢 | 🔴 | 🟡 | 🟢 |
-| [Pybricks 2.0](#pybricks-20-ev3dev) | 🔴 | 🟡 | 🟢 | 🟢 | 🔴 | 🔴 | 🟢 | 🟡 | 🟡|
+| [Pybricks 2.0](#pybricks-20-ev3dev) | 🔴 | 🟡 | 🟢 | 🟢 | 🔴 | 🔴 | 🟢 | 🟡 | 🟢 |
 | [c4ev3](#c4ev3) | 🔴 | 🟡 | 🔴 | 🔴 | 🔴 | 🟡 | ? | 🟡 | 🔴 |
 | [Rust (EV3DEV)](#rust-ev3dev) | 🟢 | 🟢 | 🟢 | 🟡 | 🟢 | 🔴 | ? | 🟢 | 🟢 |
 | [EV3RT](#ev3rt-hrp3) | 🔴 | 🔴 | 🔴 | 🟢 | 🟢 | 🟢 | ? | 🟡 | 🟡 |
