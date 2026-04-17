@@ -10,7 +10,7 @@ class LineDetector:
         g = rgb[1]
         b = rgb[2]
 
-        if sum(rgb) >= 90:
+        if sum(rgb) >= 110:
             return "white"
         elif b >= max(r, g) + 10:
             return "blue"

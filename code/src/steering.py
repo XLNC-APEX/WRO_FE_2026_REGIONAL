@@ -5,7 +5,7 @@ from utils import constrain, normalize_angle
 
 Kp = 1.2
 Ki = 0
-Kd = 0.05
+Kd = 0.1
 
 
 class Steering:
@@ -41,7 +41,7 @@ class Steering:
 
         error = self.target_angle - heading
 
-        if abs(error) < 4:
+        if abs(error) < 2:
             error = 0
 
         derivative = (error - self.last_error) / dt

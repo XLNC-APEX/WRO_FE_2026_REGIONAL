@@ -17,13 +17,13 @@ steering_motor = Motor(Port.D)
 rear_motor = Motor(Port.B)
 
 gyro = GyroSensor(Port.S4, direction=Direction.COUNTERCLOCKWISE)
-ultrasonic_right = UltrasonicSensor(Port.S2)
+ultrasonic = UltrasonicSensor(Port.S2)
 color_sensor = ColorSensor(Port.S3)
 camera = Pixy2(port=Port.S1)
 
 steering = Steering(motor=steering_motor, gyro=gyro)
 line_checker = LineDetector(color_sensor=color_sensor)
-wall_distance_keeper = DistanceKeeperOneUltrasonic(ultrasonic_right)
+wall_distance_keeper = DistanceKeeperOneUltrasonic(ultrasonic)
 obstacle_detection = ObstacleDetection(camera)
 
 passed_lines = 0
@@ -48,7 +48,7 @@ while passed_lines < 12:
     if abs(new_distance - distance) > CHECK_DISTANCE:
         if line != "white" and not direction_set:
             direction_set = True
-            wait(300)
+            # wait(300)
             if line == "blue":
                 clockwise = False
 
@@ -88,6 +88,8 @@ while passed_lines < 12:
         steering.target_angle,
         "steer:",
         steering_motor.angle(),
+        "rear motor speed:",
+        rear_motor.speed()
     )
     wait(20)
 

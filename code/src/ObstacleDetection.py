@@ -1,10 +1,10 @@
 from config import MIN_OBSTACLE_AREA
 from pixy2 import Pixy2
-from utils import Curve2D, Line2D, Point2D
+from utils import Curve2D, Point2D
 
 CAM_WIDTH = 316
 CAM_HEIGHT = 208
-Kp = 0.4
+Kp = 0.3
 
 # v1
 # RED_LINE = Line2D(-1.206, 172.5)
@@ -50,14 +50,14 @@ class ObstacleDetection:
         if green_count > 0:
             green_area = self.green_obstacles[1][0].width * self.green_obstacles[1][0].height
 
-        if red_count > 0 and red_area > green_area:
+        if red_count > 0 and self.red_obstacles[1][0].y_center < 180 and red_area > green_area:
             if red_area >= MIN_OBSTACLE_AREA:
                 red = self.red_obstacles[1][0]
                 self.correction = self._calculate_correction(
                     Point2D(red.x_center, red.y_center), RED_CURVE
                 )
         elif green_count > 0:
-            if green_area >= MIN_OBSTACLE_AREA:
+            if green_area >= MIN_OBSTACLE_AREA and self.green_obstacles[1][0].y_center < 180:
                 green = self.green_obstacles[1][0]
                 self.correction = self._calculate_correction(
                     Point2D(green.x_center, green.y_center), GREEN_CURVE
