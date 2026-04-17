@@ -27,65 +27,65 @@ We tested many frameworks.
 ? - untested
 
 ### [c4ev3](https://c4ev3.github.io/)
-${\color{green}Pros:}$
+${\color{lime}\textsf{Pros:}}$
 - Similar experience to stock EV3 programs
 - C
 
-${\color{red}Cons:}$
+${\color{red}\textsf{Cons:}}$
 - hard to build, install
 - Abandoned
 - slow sensor polling rate
 - bad performance
 
 ### [ev3rt (hrp3)](https://github.com/ev3rt-git/ev3rt-hrp3.git)
-${\color{green}Pros:}$
+${\color{lime}\textsf{Pros:}}$
 - Lightweight, bare metal
 - Fast
 - Asynchronous programming
 
-${\color{red}Cons:}$
+${\color{red}\textsf{Cons:}}$
 - LCD does not work
 - Hard to learn, C macros magic
 - Abandoned
 - MicroSD required
 
 ### [Clev3r](https://clev3r.ru/)
-${\color{green}Pros:}$
+${\color{lime}\textsf{Pros:}}$
 - Faster than blocks
 - Popular
 
-${\color{red}Cons:}$
+${\color{red}\textsf{Cons:}}$
 - BASIC: personal ergonomics dislike
 - Abandoned
 - Need to use custom IDE
 
 ### [Rust (EV3DEV)](https://crates.io/crates/ev3dev-lang-rust)
-${\color{green}Pros:}$
+${\color{lime}\textsf{Pros:}}$
 - Fast execution
 - Ergonomic code writing
 - Helpful, smart compiler
 - Access to vast crates ecosystem
 - supported
 
-${\color{red}Cons:}$
+${\color{red}\textsf{Cons:}}$
 - Slow sensor polling rate(uses Python as backend and is ~4x times slower).
 - Uses ev3dev, which is slow to start up
 - MicroSD required
 
 
 ### [Pybricks 2.0 (EV3DEV)](https://pybricks.com/ev3-micropython)
-${\color{green}Pros:}$
+${\color{lime}\textsf{Pros:}}$
 - Ease of use
 - Was popular
 
-${\color{red}Cons:}$
+${\color{red}\textsf{Cons:}}$
 - Uses ev3dev, which is slow to start up
 - Bad performance compared to compiled languages
 - Abandoned
 - MicroSD required
 
 ### [Pybricks (Bare metal)](https://github.com/pybricks/pybricks-micropython/tree/master/bricks/ev3)
-${\color{green}Pros:}$
+${\color{lime}\textsf{Pros:}}$
 - Ease of use
 - Bare metal: 
     - Blazing fast startup
@@ -94,7 +94,7 @@ ${\color{green}Pros:}$
 - Nearly drop-in replacement for [Pybricks 2.0](#pybricks-20-ev3dev)
 - Decent Documentation
 
-${\color{red}Cons:}$
+${\color{red}\textsf{Cons:}}$
 - Experimental: no wireless support yet
 - Bad performance compared to compiled languages
 
