@@ -1,25 +1,24 @@
 from pybricks.ev3devices import ColorSensor
+from utils import ColorHSV, ColorID
+
+COLOR_ORANGE = ColorHSV(24, 100, 100)  # CMYK (0, 60, 100, 0)
+COLOR_BLUE = ColorHSV(228, 100, 100)  # CMYK(100, 80, 0, 0)
 
 
 class LineDetector:
     def __init__(self, color_sensor: ColorSensor):
         self.color_sensor = color_sensor
 
-    def recognize_color(self, rgb: tuple[int, int, int]):
-        r = rgb[0]
-        g = rgb[1]
-        b = rgb[2]
+    # Find the closest color. TODO: proper percentages, colors.
+    def recognize_color(self, rgb: tuple[int, int, int]) -> int:
+        color = ColorHSV.from_rgb(rgb)
+        if color.in_range(COLOR_ORANGE, 10, 5, 30):
+            return ColorID.ORANGE
+        if color.in_range(COLOR_BLUE, 10, 5, 30):
+            return ColorID.BLUE
+        return ColorID.WHITE
 
-        if sum(rgb) >= 50:
-            return "white"
-        elif b >= max(r, g):
-            return "blue"
-        else:
-            return "orange"
-
-
-
-    def check_line(self):
+    def check_line(self) -> int:
         color = self.color_sensor.rgb()
-        print("rgb: ", color)
+        # print("rgb: ", color)
         return self.recognize_color(color)

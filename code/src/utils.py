@@ -1,3 +1,4 @@
+from __future__ import annotations
 import math
 
 from config import WHEEL_DIAMETER
@@ -61,3 +62,59 @@ class Point2D:
 
 def find_perpendicular(heading: int, dist: int, passed_lines):
     return math.cos((heading - passed_lines * 90) * math.pi / 180) * dist
+
+
+class ColorHSV:
+    def __init__(self, h: float, s: float, v: float) -> None:
+        self.h: float = h
+        self.s: float = s
+        self.v: float = v
+
+    def from_rgb(rgb: tuple[int, int, int]) -> ColorHSV:
+        INV_255 = 1 / 255
+        r, g, b = (val * INV_255 for val in rgb)
+        cmax, cmax_i = max((val, idx) for idx, val in enumerate(rgb))
+        cmin = min(rgb)
+        diff = (cmax - cmin) * INV_255
+        cmaxf = cmax * INV_255
+
+        h = 0.0
+        if cmax != cmin:
+            match cmax_i:
+                case 0:
+                    h = (60.0 * ((g - b) / diff) + 360.0) % 360.0
+                case 1:
+                    h = (60.0 * ((b - r) / diff) + 120.0) % 360.0
+                case 2:
+                    h = (60.0 * ((r - g) / diff) + 240.0) % 360.0
+        s = 0.0
+        if cmax != 0:
+            s = (diff / cmaxf) * 100
+
+        v = cmaxf * 100.0
+
+        return ColorHSV(h, s, v)
+
+    def __str__(self) -> str:
+        return f"h: {float(self.h)} s: {float(self.s)} v: {float(self.v)}"
+
+    def in_range(self, color: ColorHSV, hp: float, sp: float, vp: float) -> bool:
+        if not within_percent(self.h, color.h, hp):
+            return False
+        if not within_percent(self.v, color.v, vp):
+            return False
+        if not within_percent(self.s, color.s, sp):
+            return False
+
+        return True
+
+
+def within_percent(self: float, v: float, p: float) -> bool:
+    diff = abs(self - v)
+    max_diff = abs(self * (p / 100))
+    return diff <= max_diff
+
+class ColorID:
+    WHITE = 0
+    BLUE = 1
+    ORANGE = 2
