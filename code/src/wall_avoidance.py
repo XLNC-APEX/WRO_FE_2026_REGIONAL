@@ -37,7 +37,7 @@ class DistanceKeeperOneUltrasonic:
 
     def correction(self, clockwise: bool, heading: int, target: int):
         d = self.ultrasonic.distance()
-        if abs(target - heading) > 30:
+        if abs(target - heading) > 25:
             error = 0
         else:
             d = find_perpendicular(heading, d, target)
