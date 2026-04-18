@@ -39,12 +39,12 @@ clockwise = True
 correction = 0
 
 while passed_lines < 12:
-    line = line_checker.check_line()
     new_distance = get_distance(rear_motor)
-    if abs(new_distance - distance) > CHECK_DISTANCE:
+    if not direction_set or abs(new_distance - distance) > CHECK_DISTANCE:
+        line = line_checker.check_line()
         if line != "white" and not direction_set:
             direction_set = True
-            wait(300)
+            wait(800)
             if line == "blue":
                 clockwise = False
 
@@ -63,8 +63,8 @@ while passed_lines < 12:
             distance = new_distance
             passed_lines += 1
 
-    if direction_set and not is_turning:
-        correction = wall_distance_keeper.correction(clockwise, steering.heading, passed_lines)
+    if direction_set:
+        correction = wall_distance_keeper.correction(clockwise, steering.heading, steering.target_angle)
     else:
         correction = 0
 
@@ -75,25 +75,25 @@ while passed_lines < 12:
     else:
         rear_motor.run(OPEN_HIGH_SPEED)
 
-    print(
-        "heading:",
-        gyro.angle(),
-        "target:",
-        steering.target_angle,
-        "steer:",
-        steering_motor.angle(),
-        "color:",
-        line,
-        "distance:",
-        new_distance,
-    )
+    # print(
+    #     "heading:",
+    #     steering.heading,
+    #     "target:",
+    #     steering.target_angle,
+    #     "steer:",
+    #     steering_motor.angle(),
+    #     "color:",
+    #     line,
+    #     "distance:",
+    #     new_distance,
+    # )
     wait(20)
 
-# rear_motor.run(LOW_SPEED)
-# finish_dist = get_distance(rear_motor)
-# while abs(get_distance(rear_motor) - finish_dist) < 2000:
-#     correction = wall_distance_keeper.correction(clockwise)
-#     steering.pid(wall=correction)
+rear_motor.run(OPEN_LOW_SPEED)
+finish_dist = get_distance(rear_motor)
+while abs(get_distance(rear_motor) - finish_dist) < 2000:
+    correction = wall_distance_keeper.correction(clockwise, steering.heading, steering.target_angle)
+    steering.pid(wall=correction)
 
 rear_motor.stop()
 
