@@ -18,6 +18,7 @@ gyro = GyroSensor(Port.S4, direction=Direction.COUNTERCLOCKWISE)
 ultrasonic_left = UltrasonicSensor(Port.S1)
 ultrasonic_right = UltrasonicSensor(Port.S2)
 color_sensor = ColorSensor(Port.S3)
+gyro.calibrate()
 
 steering = Steering(motor=steering_motor, gyro=gyro)
 line_checker = LineDetector(color_sensor=color_sensor)
