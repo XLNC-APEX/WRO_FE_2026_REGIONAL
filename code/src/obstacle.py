@@ -69,7 +69,7 @@ while passed_lines < 12:
 
     pixy_correction = obstacle_detection.get_correction()
 
-    if direction_set and not is_turning:
+    if direction_set:
         wall_correction = wall_distance_keeper.correction(
             clockwise, steering.heading, steering.target_angle
         )

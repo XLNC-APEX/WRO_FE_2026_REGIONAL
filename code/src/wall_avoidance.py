@@ -16,10 +16,13 @@ class DistanceKeeper:
         else:
             d = self.ultrasonic_right.distance()
             
-        d = find_perpendicular(heading, d, target)
+        if abs(target - heading) > 25:
+            error = 0
+        else:
+            d = find_perpendicular(heading, d, target)
+            error = SAFE_DISTANCE_FROM_WALLS - d
         # print("ultrasonic:", d)
 
-        error = SAFE_DISTANCE_FROM_WALLS - d
         if clockwise:
             error *= -1
 
