@@ -153,3 +153,9 @@ The Obstacle Challenge is almost identical to the Open Challenge, with the excep
 | ![Red obstacle trajectory](research/obstacle/red-nonlinear-regression.png) | ![Green obstacle trajectory](research/obstacle/green-nonlinear-regression.png) |
 
 ---
+
+### Robot photos
+
+| ![Robot front](images/robot_front.jpg) | ![Robot left](images/robot_left.jpg) | ![Robot right](images/robot_right.jpg) |
+| --- | --- | --- |
+| ![Robot back](images/robot_back.jpg) | ![Robot bottom](images/robot_bottom.jpg) | ![Robot top](images/robot_top.jpg) |
