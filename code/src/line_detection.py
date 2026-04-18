@@ -13,7 +13,7 @@ class LineDetector:
 
         if sum(rgb) >= 70:
             return ColorID.WHITE
-        elif b >= max(r, g):
+        elif b >= min(r, g):
             return ColorID.BLUE
         else:
             return ColorID.ORANGE

@@ -26,7 +26,7 @@ def filter(block: Block) -> bool:
 
 def crop_filter(x: int, y: int) -> bool:
     H_CROP = 0
-    V_TOP_CROP = 30
+    V_TOP_CROP = 40
     V_BOTTOM_CROP = 38
     if (x > H_CROP) and (x < (CAM_WIDTH - H_CROP)):
         if y > V_TOP_CROP:

@@ -65,7 +65,9 @@ while passed_lines < 12:
             passed_lines += 1
 
     if direction_set:
-        correction = wall_distance_keeper.correction(clockwise, steering.heading, steering.target_angle)
+        correction = wall_distance_keeper.correction(
+            clockwise, steering.heading, steering.target_angle
+        )
     else:
         correction = 0
 
@@ -88,14 +90,16 @@ while passed_lines < 12:
         "distance:",
         new_distance,
         "Is tunring:",
-        is_turning
+        is_turning,
     )
     wait(20)
 
 rear_motor.run(OPEN_LOW_SPEED)
 finish_dist = get_distance(rear_motor)
 while abs(get_distance(rear_motor) - finish_dist) < 2000:
-    correction = wall_distance_keeper.correction(clockwise, steering.heading, steering.target_angle)
+    correction = wall_distance_keeper.correction(
+        clockwise, steering.heading, steering.target_angle
+    )
     steering.pid(wall=correction)
 
 rear_motor.stop()
