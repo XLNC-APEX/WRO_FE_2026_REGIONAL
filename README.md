@@ -3,12 +3,12 @@
  Welcome to the GitHub Repository of Team XLNC Apex from Kazakhstan, competing in the World Robot Olympiad Future Engineers 2026 category.
 
 # Contents
-- The team
-- Challenge Overview
-- Our Robot
-- Mechanical systems
-- Electronic systems
-- Software
+- [The team](#the-team)
+- [Challenge Overview](#challenge-overview)
+- [Our Robot](#our-robot)
+- [Mechanical systems](#mechanical-systems)
+- [Electronic systems](#electronic-systems)
+- [Software](#software)
 
 ---
 
@@ -16,13 +16,9 @@
 
 ### Members
 
-- Karabayev Darkhan
-
-- Abenov Sayan
-
-### Coach
-
-Usoltsev Vladimir
+| Karabayev Darkhan | Abenov Sayan |
+| --- | --- |
+| ![Photo](images/Darkhan.jpg) | ![Photo](images/Sayan.jpg) |
 
 
 ---
@@ -122,43 +118,38 @@ Our robot is powered by the **LEGO EV3** platform with extended sensing capabili
 The software stack is built using **Pybricks (MicroPython)** and follows a modular architecture.
 
 ### Core Modules
-- **Perception Module**  
-  - Pixy2 data processing  
-  - Object detection and filtering  
+- **Steering Module**  
+  - PD controller for hyroscope's angle
+  - Tracking right steering angle 
 
-- **Control Module**  
-  - PID controllers for steering and speed  
-  - Trajectory correction logic  
+- **Wall Avoidance Module**  
+  - Finding the perpendicular to the outer wall
+  - Proportional controller for distance from outer wall
 
-- **Decision Module**  
+- **Line Detection Module**  
   - Obstacle avoidance strategy  
   - State-based behavior system  
 
-- **Integration Layer**  
-  - Sensor fusion  
-  - Real-time execution loop  
+- **Obstacle Detection Module**  
+  - Filtering unnecessary objects
+  - The most optimal traectory
 
-### Key Features
-- Deterministic control loop  
-- Robust error handling  
-- Scalable architecture for rapid iteration  
+### Coding platform:
 
----
+After careful selection and [research](research/programming_environment_choice.md), for EV3, we chose an [experimental version of Pybricks](https://github.com/pybricks/pybricks-micropython/tree/master/bricks/ev3) with **significantly faster execution time** due to native firmware without the use of an SD card.
 
-# Performance & Strategy
+### Open challenge:
 
-Our approach prioritizes **reliability and repeatability** over aggressive but unstable strategies.
+For the open challenge, we chose a simple strategy of driving along the outer wall using a gyroscope and ultrasonic sensor. Turn and direction detection occur using a color sensor.
 
-### Strategy Highlights
-- Stable lane tracking as baseline behavior  
-- Early obstacle detection and smooth avoidance  
-- Conservative speed tuning for maximum consistency  
+Firstly, the robot starts gyro calibration and angle resets. We reset the steering motor by running it until stalled to the left, to the right, and to the half. Then, a while loop starts until all 12 lines are passed. The car drives forward to the first line. The color sensor recognizes the color, whether it's orange or blue, and based on this, we can determine the direction (orange for clockwise and blue for counter-clockwise) and the right ultrasonic. Since the robot is driving along the outer wall, moving the internal walls won't bother the robot. The running loop operates at a 50 Hz frequency; it's not much, but it's enough to successfully complete the task. We use a PD controller for the gyroscope and a proportional controller for wall detection. By reading the distance from the ultrasound, we take into account the robot's rotation angle and find the perpendicular to the wall. To avoid reacting to the line twice per turn, we have a distance timeout, which is calculated using the rotation angle of the rear motor. Once the passed_lines variable is equal to 12 (which means all 3 laps are finished) the robot drives forward for a set period of time to land in its starting area and stops.
 
-### Continuous Improvements
-- PID tuning through iterative testing  
-- Mechanical refinements for reduced vibration  
-- Optimization of vision processing latency  
+### Obstacle challenge:
+
+The Obstacle Challenge is almost identical to the Open Challenge, with the exception of a Pixy2 camera correction. When the camera detects an obstacle, gyroscope and ultrasonic correction are disabled, and the robot follows the most optimal trajectory, which we've determined using point-based regression. As a result, the obstacle moves on the camera along an optimal nonlinear trajectory.
+
+| **Green obstacle** | **Red obstacle** |
+| --- | --- |
+| ![Red obstacle trajectory](research/obstacle/red-nonlinear-regression.png) | ![Green obstacle trajectory](research/obstacle/green-nonlinear-regression.png) |
 
 ---
-
-🚀 **Goal:** Build a highly reliable autonomous system capable of consistent performance at the highest level of WRO competition.
