@@ -59,5 +59,5 @@ class Point2D:
         self.y: float = y
 
 
-def find_perpendicular(heading: int, dist: int, passed_lines):
-    return math.cos((heading - passed_lines * 90) * math.pi / 180) * dist
+def find_perpendicular(heading: int, dist: int, target: int):
+    return math.cos((target - heading) * math.pi / 180) * dist

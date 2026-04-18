@@ -1,5 +1,5 @@
 #!/usr/bin/env pybricks-micropython
-from config import CHECK_DISTANCE, HIGH_SPEED, LOW_SPEED
+from config import CHECK_DISTANCE, OBSTACLE_HIGH_SPEED, OBSTACLE_LOW_SPEED
 from line_detection import LineDetector
 from ObstacleDetection import ObstacleDetection
 from pixy2 import Pixy2
@@ -34,7 +34,7 @@ rear_motor.reset_angle(0)
 
 ev3.speaker.beep()
 
-rear_motor.run(HIGH_SPEED)
+rear_motor.run(OBSTACLE_HIGH_SPEED)
 
 direction_set = False
 is_turning = False
@@ -43,12 +43,12 @@ wall_correction = 0
 pixy_correction = 0
 
 while passed_lines < 12:
-    line = line_checker.check_line()
     new_distance = get_distance(rear_motor)
-    if abs(new_distance - distance) > CHECK_DISTANCE:
+    if not direction_set or abs(new_distance - distance) > CHECK_DISTANCE:
+        line = line_checker.check_line()
         if line != "white" and not direction_set:
             direction_set = True
-            # wait(300)
+            wait(300)
             if line == "blue":
                 clockwise = False
 
@@ -70,16 +70,18 @@ while passed_lines < 12:
     pixy_correction = obstacle_detection.get_correction()
 
     if direction_set and not is_turning:
-        wall_correction = wall_distance_keeper.correction(clockwise, steering.heading, passed_lines)
+        wall_correction = wall_distance_keeper.correction(
+            clockwise, steering.heading, steering.target_angle
+        )
     else:
         wall_correction = 0
 
     steer = steering.pid(pixy=pixy_correction, wall=wall_correction)
 
     if abs(steer) > 20 or abs(pixy_correction) > 0:
-        rear_motor.run(LOW_SPEED)
+        rear_motor.run(OBSTACLE_LOW_SPEED)
     else:
-        rear_motor.run(HIGH_SPEED)
+        rear_motor.run(OBSTACLE_HIGH_SPEED)
 
     # print(
     #     "heading:",

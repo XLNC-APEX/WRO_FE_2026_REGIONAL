@@ -1,5 +1,5 @@
 #!/usr/bin/env pybricks-micropython
-from config import CHECK_DISTANCE, HIGH_SPEED, LOW_SPEED
+from config import CHECK_DISTANCE, OPEN_HIGH_SPEED, OPEN_LOW_SPEED
 from line_detection import LineDetector
 from pybricks.ev3devices import ColorSensor, GyroSensor, Motor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
@@ -31,7 +31,7 @@ rear_motor.reset_angle(0)
 
 ev3.speaker.beep()
 
-rear_motor.run(HIGH_SPEED)
+rear_motor.run(OPEN_HIGH_SPEED)
 
 direction_set = False
 is_turning = False
@@ -71,9 +71,9 @@ while passed_lines < 12:
     steer = steering.pid(wall=correction)
 
     if abs(steer) > 20:
-        rear_motor.run(LOW_SPEED)
+        rear_motor.run(OPEN_LOW_SPEED)
     else:
-        rear_motor.run(HIGH_SPEED)
+        rear_motor.run(OPEN_HIGH_SPEED)
 
     print(
         "heading:",
