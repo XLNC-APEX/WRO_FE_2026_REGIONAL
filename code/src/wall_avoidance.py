@@ -16,17 +16,17 @@ class DistanceKeeper:
         else:
             d = self.ultrasonic_right.distance()
             
-        if abs(target - heading) > 25:
-            error = 0
-        else:
-            d = find_perpendicular(heading, d, target)
-            error = SAFE_DISTANCE_FROM_WALLS - d
+        # if abs(target - heading) > 40:
+        #     error = 0
+        # else:
+        d = find_perpendicular(heading, d, target)
+        error = SAFE_DISTANCE_FROM_WALLS - d
         # print("ultrasonic:", d)
 
         if clockwise:
             error *= -1
 
-        if abs(error) < 10:
+        if abs(error) < 5:
             error = 0
 
         return DistanceKeeper.Kp * error
@@ -40,7 +40,7 @@ class DistanceKeeperOneUltrasonic:
 
     def correction(self, clockwise: bool, heading: int, target: int):
         d = self.ultrasonic.distance()
-        if abs(target - heading) > 25:
+        if abs(target - heading) > 30:
             error = 0
         else:
             d = find_perpendicular(heading, d, target)

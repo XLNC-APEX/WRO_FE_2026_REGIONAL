@@ -6,7 +6,7 @@ from pybricks.hubs import EV3Brick
 from pybricks.parameters import Direction, Port
 from pybricks.tools import wait
 from steering import Steering
-from utils import get_distance
+from utils import get_distance, ColorID
 from wall_avoidance import DistanceKeeper
 
 ev3 = EV3Brick()
@@ -43,21 +43,21 @@ while passed_lines < 12:
     new_distance = get_distance(rear_motor)
     if not direction_set or abs(new_distance - distance) > CHECK_DISTANCE:
         line = line_checker.check_line()
-        if line != "white" and not direction_set:
+        if line != ColorID.WHITE and not direction_set:
             direction_set = True
             wait(300)
-            if line == "blue":
+            if line == ColorID.BLUE:
                 clockwise = False
 
         is_turning = False
 
-        if direction_set and clockwise and line == "orange":
+        if direction_set and clockwise and line == ColorID.ORANGE:
             ev3.speaker.beep()
             steering.increase_target_angle(-90)
             is_turning = True
             distance = new_distance
             passed_lines += 1
-        elif direction_set and not clockwise and line == "blue":
+        elif direction_set and not clockwise and line == ColorID.BLUE:
             ev3.speaker.beep()
             steering.increase_target_angle(90)
             is_turning = True
@@ -76,18 +76,20 @@ while passed_lines < 12:
     else:
         rear_motor.run(OPEN_HIGH_SPEED)
 
-    # print(
-    #     "heading:",
-    #     steering.heading,
-    #     "target:",
-    #     steering.target_angle,
-    #     "steer:",
-    #     steering_motor.angle(),
-    #     "color:",
-    #     line,
-    #     "distance:",
-    #     new_distance,
-    # )
+    print(
+        "heading:",
+        steering.heading,
+        "target:",
+        steering.target_angle,
+        "steer:",
+        steering_motor.angle(),
+        "color:",
+        line,
+        "distance:",
+        new_distance,
+        "Is tunring:",
+        is_turning
+    )
     wait(20)
 
 rear_motor.run(OPEN_LOW_SPEED)

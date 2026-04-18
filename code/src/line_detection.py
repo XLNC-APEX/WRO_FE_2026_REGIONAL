@@ -1,21 +1,22 @@
 from pybricks.ev3devices import ColorSensor
+from utils import ColorID
 
 
 class LineDetector:
     def __init__(self, color_sensor: ColorSensor):
         self.color_sensor = color_sensor
 
-    def recognize_color(self, rgb: tuple[int, int, int]):
+    def recognize_color(self, rgb: tuple[int, int, int]) -> int:
         r = rgb[0]
         g = rgb[1]
         b = rgb[2]
 
         if sum(rgb) >= 70:
-            return "white"
+            return ColorID.WHITE
         elif b >= max(r, g):
-            return "blue"
+            return ColorID.BLUE
         else:
-            return "orange"
+            return ColorID.ORANGE
 
 
 

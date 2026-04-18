@@ -61,3 +61,9 @@ class Point2D:
 
 def find_perpendicular(heading: int, dist: int, target: int):
     return math.cos((target - heading) * math.pi / 180) * dist
+
+
+class ColorID:
+    WHITE = 0
+    ORANGE = 1
+    BLUE = 2

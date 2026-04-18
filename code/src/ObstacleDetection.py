@@ -1,5 +1,5 @@
 from config import MIN_OBSTACLE_AREA
-from pixy2 import Pixy2
+from pixy2 import Pixy2, Block
 from utils import Curve2D, Point2D
 
 CAM_WIDTH = 316
@@ -15,6 +15,24 @@ Kp = 0.3
 # v2
 RED_CURVE = Curve2D(0.003517, -1.282576, 129.94021)
 GREEN_CURVE = Curve2D(-0.004968, 1.319625, 215.021075)
+
+
+def filter(block: Block) -> bool:
+    if (block.height * block.width) > MIN_OBSTACLE_AREA:
+        if crop_filter(block.x_center, block.y_center):
+            return True
+    return False
+
+
+def crop_filter(x: int, y: int) -> bool:
+    H_CROP = 0
+    V_TOP_CROP = 30
+    V_BOTTOM_CROP = 38
+    if (x > H_CROP) and (x < (CAM_WIDTH - H_CROP)):
+        if y > V_TOP_CROP:
+            if y < (CAM_HEIGHT - V_BOTTOM_CROP):
+                return True
+    return False
 
 
 class ObstacleDetection:
@@ -46,22 +64,28 @@ class ObstacleDetection:
         self.correction = 0
 
         if red_count > 0:
-            red_area = self.red_obstacles[1][0].width * self.red_obstacles[1][0].height
+            red = self.red_obstacles[1][0]
+            red_area = red.height * red.width
+
         if green_count > 0:
-            green_area = self.green_obstacles[1][0].width * self.green_obstacles[1][0].height
+            green = self.green_obstacles[1][0]
+            green_area = green.height * green.width
 
-        if red_count > 0 and 30 < self.red_obstacles[1][0].y_center and red_area > green_area:
-            if red_area >= MIN_OBSTACLE_AREA:
-                red = self.red_obstacles[1][0]
-                self.correction = self._calculate_correction(
-                    Point2D(red.x_center, red.y_center), RED_CURVE
-                )
-        elif green_count > 0:
-            if green_area >= MIN_OBSTACLE_AREA and 30 < self.green_obstacles[1][0].y_center:
-                green = self.green_obstacles[1][0]
-                self.correction = self._calculate_correction(
-                    Point2D(green.x_center, green.y_center), GREEN_CURVE
-                )
+        if (red_count > 0) and (red_area > green_area) and filter(red):
+            self.correction = self._calculate_correction(
+                Point2D(red.x_center, red.y_center), RED_CURVE
+            )
+        elif (green_count > 0) and (filter(green)):
+            self.correction = self._calculate_correction(
+                Point2D(green.x_center, green.y_center), GREEN_CURVE
+            )
 
-        print("pixy-correction: ", self.correction, "green: ", green_count, "red: ", red_count)
+        print(
+            "pixy-correction: ",
+            self.correction,
+            "green: ",
+            green_count,
+            "red: ",
+            red_count,
+        )
         return self.correction
