@@ -2,9 +2,10 @@ from utils import find_perpendicular
 from config import SAFE_DISTANCE_FROM_WALLS
 from pybricks.ev3devices import UltrasonicSensor
 
-Kp = 0.2
 
 class DistanceKeeper:
+    Kp = 0.2
+    
     def __init__(self, ultrasonic_left: UltrasonicSensor, ultrasonic_right: UltrasonicSensor):
         self.ultrasonic_left = ultrasonic_left
         self.ultrasonic_right = ultrasonic_right
@@ -25,22 +26,27 @@ class DistanceKeeper:
         if abs(error) < 10:
             error = 0
 
-        return Kp * error
+        return DistanceKeeper.Kp * error
 
 
 class DistanceKeeperOneUltrasonic:
+    Kp = 0.2
+    
     def __init__(self, ultrasonic: UltrasonicSensor):
         self.ultrasonic = ultrasonic
 
     def correction(self, clockwise: bool, heading: int, target: int):
         d = self.ultrasonic.distance()
-        d = find_perpendicular(heading, d, target)
+        if abs(target - heading) > 30:
+            error = 0
+        else:
+            d = find_perpendicular(heading, d, target)
+            error = SAFE_DISTANCE_FROM_WALLS - d
 
-        error = SAFE_DISTANCE_FROM_WALLS - d
         if clockwise:
             error *= -1
 
-        if abs(error) < 20:
+        if abs(error) < 5:
             error = 0
 
-        return Kp * error
+        return DistanceKeeperOneUltrasonic.Kp * error
