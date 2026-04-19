@@ -93,7 +93,43 @@ The mechanical design is focused on achieving predictable and stable motion.
 ### Engineering Decisions
 - Minimized mechanical play for better control accuracy  
 - Balanced gear ratios for torque vs speed trade-off  
-- Structural reinforcement for competition durability  
+- Structural reinforcement for competition durability 
+
+### Steering
+
+### Geometry
+We thought to use Ackerman's steering for more efficient turns. 
+However, firstly we built this parallel steering.
+
+![incorrect_steering](_res/incorrect_steering.jpg)
+
+Quickly noticed the issue and fixed it:
+
+![proper_steering](_res/proper_steering.jpg)
+
+It works great, and since it meets our criteria, no Ackerman geometry is required.
+
+| It is controlled by the medium ev3 motor. This motor has accurate encoder and after calibration at program start, it acts basically like a servo.| ![steering_motor](_res/steering_motor.jpg) |
+| --- | --- |
+
+
+### Rear-Wheel Drive(RWD)
+
+We use differiential to properly drive while turning. It eliminates required otherwise wheels slippage, due to the fact that wheels travel arcs with different radii, thus, should rotate at different rates.
+![differential](_res/differential.jpg)
+
+
+It is powered by medium EV3 motor.
+
+
+### Gyroscope
+
+LEGO EV3 gyroscope is used to know robot orientation.
+
+Problem: These gyroscopes drift frequently. 
+Reason: During gyroscope power on, it captures initial angular velocity. Also the error accumulates with time.
+Solution: Power cycle the gyroscope. Pybricks added .calibrate() to reboot ev3 gyro.
+
 
 
 # Electronic Systems
@@ -111,7 +147,32 @@ Our robot is powered by the **LEGO EV3** platform with extended sensing capabili
 - Low-latency sensor data processing  
 - Stable power distribution  
 
+When we started to prepare for WRO we had to choose the platform we are going to use.
 
+We had a choice of completely custom platform or EV3 we already have.
+
+Custom board requires a to choose components and order them, which can take up to a month of waiting. We have to design and 3d print parts.
+Accounting for that, there probably at least a month to just assemble a first version of a robot. We wanted to start fast to spend more time programming.
+
+The EV3 was the fastest to get started with.
+EV3 robot assembly took approximately 1 day.(Later we added camera while programming).
+
+[Assembly instructions for our robot are available.]()
+
+
+# Pixy 2.1 camera:
+
+![Photo of pixy 2.1 in our printed case on our robot](images/pixy_cam.jpg)
+
+We had a part of the case, but not the front lid. That was an opportunity to learn FreeCAD and 3d printing! [Link to CAD]()
+
+![Pixy 2.1 front lid CAD](images/cading.png)
+
+Camera is fixed on an axle and the viewing angle cna be set using gears.
+
+We set the optimal angle to fit as much field on screen and less noisy world
+
+![Camera view](images/pixymon.png)
 
 # Software
 
@@ -119,7 +180,7 @@ The software stack is built using **Pybricks (MicroPython)** and follows a modul
 
 ### Core Modules
 - **Steering Module**  
-  - PD controller for hyroscope's angle
+  - PD controller for gyroscope's angle
   - Tracking right steering angle 
 
 - **Wall Avoidance Module**  
@@ -132,11 +193,11 @@ The software stack is built using **Pybricks (MicroPython)** and follows a modul
 
 - **Obstacle Detection Module**  
   - Filtering unnecessary objects
-  - The most optimal traectory
+  - The most optimal trajectory
 
 ### Coding platform:
 
-After careful selection and [research](research/programming_environment_choice.md), for EV3, we chose an [experimental version of Pybricks](https://github.com/pybricks/pybricks-micropython/tree/master/bricks/ev3) with **significantly faster execution time** due to native firmware without the use of an SD card.
+After careful selection and [research](research/programming_environment_choice.md), for EV3, we chose an [experimental version of Pybricks](https://github.com/pybricks/pybricks-micropython/tree/master/bricks/ev3) with **significantly faster execution time** due to bare metal firmware and without the use of an SD card.
 
 ### Open challenge:
 
