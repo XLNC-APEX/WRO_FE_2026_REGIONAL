@@ -101,22 +101,22 @@ The mechanical design is focused on achieving predictable and stable motion.
 We thought to use Ackerman's steering for more efficient turns. 
 However, firstly we built this parallel steering.
 
-![incorrect_steering](_res/incorrect_steering.jpg)
+![incorrect_steering](images/incorrect_steering.jpg)
 
 Quickly noticed the issue and fixed it:
 
-![proper_steering](_res/proper_steering.jpg)
+![proper_steering](images/proper_steering.jpg)
 
 It works great, and since it meets our criteria, no Ackerman geometry is required.
 
-| It is controlled by the medium ev3 motor. This motor has accurate encoder and after calibration at program start, it acts basically like a servo.| ![steering_motor](_res/steering_motor.jpg) |
+| It is controlled by the medium ev3 motor. This motor has accurate encoder and after calibration at program start, it acts basically like a servo.| ![steering_motor](images/steering_motor.jpg) |
 | --- | --- |
 
 
 ### Rear-Wheel Drive(RWD)
 
 We use differiential to properly drive while turning. It eliminates required otherwise wheels slippage, due to the fact that wheels travel arcs with different radii, thus, should rotate at different rates.
-![differential](_res/differential.jpg)
+![differential](images/differential.jpg)
 
 
 It is powered by medium EV3 motor.
