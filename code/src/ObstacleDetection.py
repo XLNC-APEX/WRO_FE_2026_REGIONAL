@@ -13,7 +13,8 @@ Kp = 0.3
 # GREEN_LINE = RED_LINE.invert_in_x_range_to(CAM_WIDTH)
 
 # v2
-RED_CURVE = Curve2D(0.003517, -1.282576, 129.94021)
+# RED_CURVE = Curve2D(0.003517, -1.282576, 129.94021)
+RED_CURVE = Curve2D(0.003517, -1.282576, 120)
 GREEN_CURVE = Curve2D(-0.004968, 1.319625, 215.021075)
 
 
@@ -25,8 +26,9 @@ def filter(block: Block) -> bool:
 
 
 def crop_filter(x: int, y: int) -> bool:
-    H_CROP = 0
-    V_TOP_CROP = 40
+    H_CROP = 10
+
+    V_TOP_CROP = 35
     V_BOTTOM_CROP = 38
     if (x > H_CROP) and (x < (CAM_WIDTH - H_CROP)):
         if y > V_TOP_CROP:

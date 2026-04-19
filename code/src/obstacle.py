@@ -1,5 +1,5 @@
 #!/usr/bin/env pybricks-micropython
-from config import CHECK_DISTANCE, OBSTACLE_HIGH_SPEED, OBSTACLE_LOW_SPEED
+from config import CHECK_DISTANCE, OBSTACLE_HIGH_SPEED, OBSTACLE_LOW_SPEED, START_CHECK_DISTANCE
 from line_detection import LineDetector
 from ObstacleDetection import ObstacleDetection
 from pixy2 import Pixy2
@@ -47,7 +47,7 @@ while passed_lines < 12:
     new_distance = get_distance(rear_motor)
     if not direction_set or abs(new_distance - distance) > CHECK_DISTANCE:
         line = line_checker.check_line()
-        if line != ColorID.WHITE and not direction_set:
+        if (line != ColorID.WHITE) and (not direction_set) and (abs(new_distance - distance) > START_CHECK_DISTANCE):
             direction_set = True
             wait(300)
             if line == ColorID.BLUE:
@@ -68,12 +68,12 @@ while passed_lines < 12:
             distance = new_distance
             passed_lines += 1
 
-    pixy_correction = obstacle_detection.get_correction()
 
     if direction_set:
         wall_correction = wall_distance_keeper.correction(
             clockwise, steering.heading, steering.target_angle
         )
+        pixy_correction = obstacle_detection.get_correction()
     else:
         wall_correction = 0
 
@@ -95,7 +95,7 @@ while passed_lines < 12:
     #     rear_motor.speed()
     # )
     # wait(10)
-    wait(20)
+    # wait(20)
 
 rear_motor.run(OBSTACLE_LOW_SPEED)
 finish_dist = get_distance(rear_motor)
