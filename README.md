@@ -9,8 +9,9 @@
 - [Mechanical systems](#mechanical-systems)
 - [Electronic systems](#electronic-systems)
 - [Software](#software)
+- [Robot photos](#robot-photos)
 
----
+
 
 # The team
 
@@ -21,7 +22,7 @@
 | ![Photo](images/Darkhan.jpg) | ![Photo](images/Sayan.jpg) |
 
 
----
+
 
 # Challenge Overview
 
@@ -38,7 +39,7 @@ Key engineering challenges:
 - Keeping right distance from walls  
 - Reliability under competition constraints  
 
----
+
 
 # System Architecture
 
@@ -60,7 +61,7 @@ Our robot is designed as a modular system consisting of three tightly integrated
 
 This layered approach allows us to isolate complexity and improve reliability.
 
----
+
 
 # Our Robot
 
@@ -77,7 +78,7 @@ Our robot is a compact autonomous vehicle optimized for **speed, stability, and 
 - Smooth cornering with PID stabilization  
 - Real-time trajectory correction  
 
----
+
 
 # Mechanical Systems
 
@@ -94,7 +95,6 @@ The mechanical design is focused on achieving predictable and stable motion.
 - Balanced gear ratios for torque vs speed trade-off  
 - Structural reinforcement for competition durability  
 
----
 
 # Electronic Systems
 
@@ -111,7 +111,7 @@ Our robot is powered by the **LEGO EV3** platform with extended sensing capabili
 - Low-latency sensor data processing  
 - Stable power distribution  
 
----
+
 
 # Software
 
@@ -152,9 +152,7 @@ The Obstacle Challenge is almost identical to the Open Challenge, with the excep
 | --- | --- |
 | ![Red obstacle trajectory](research/obstacle/red-nonlinear-regression.png) | ![Green obstacle trajectory](research/obstacle/green-nonlinear-regression.png) |
 
----
-
-### Robot photos
+# Robot photos
 
 | ![Robot front](images/robot_front.jpg) | ![Robot left](images/robot_left.jpg) | ![Robot right](images/robot_right.jpg) |
 | --- | --- | --- |
