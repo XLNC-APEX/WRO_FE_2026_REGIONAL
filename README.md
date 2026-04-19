@@ -164,7 +164,7 @@ EV3 robot assembly took approximately 1 day.(Later we added camera while program
 
 ![Photo of pixy 2.1 in our printed case on our robot](images/pixy_cam.jpg)
 
-We had a part of the case, but not the front lid. That was an opportunity to learn FreeCAD and 3d printing! [Link to CAD]()
+We had a part of the case, but not the front lid. That was an opportunity to learn FreeCAD and 3d printing! [Link to CAD](3d_models/pixy_holder/small_holder3.FCStd)
 
 ![Pixy 2.1 front lid CAD](images/cading.png)
 
