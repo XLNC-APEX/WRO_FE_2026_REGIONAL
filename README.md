@@ -157,7 +157,7 @@ Accounting for that, there probably at least a month to just assemble a first ve
 The EV3 was the fastest to get started with.
 EV3 robot assembly took approximately 1 day.(Later we added camera while programming).
 
-[Assembly instructions for our robot are available.]()
+[Assembly instructions for our robot are available.](xlnc_apex_instruction.pdf)
 
 
 # Pixy 2.1 camera:
